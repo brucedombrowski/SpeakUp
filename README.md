@@ -414,7 +414,7 @@ SpeakUp/
 
 ## Author
 
-Author: [Name]  
-Role: [Role / Title]  
-Organization: [Organization / Branch]  
-Date: [Date]
+Author: Bruce Dombrowski
+Role: Creator
+Organization: Yes
+Date: 2025-12-22
