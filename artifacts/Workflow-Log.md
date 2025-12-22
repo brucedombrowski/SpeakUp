@@ -52,10 +52,32 @@ Execution) handoff using existing enterprise-compatible tools.
 | 3.7 | Workflow log created | IDE AI assistant |
 
 **Outputs:**
-- briefing/SpeakUp-Briefing.md
+- briefing/SpeakUp-Briefing.tex (source)
+- briefing/SpeakUp-Briefing.pdf (distributable)
 - verification/Compliance-Statement.md
 - verification/Requirements-Traceability.md
 - artifacts/Workflow-Log.md
+
+---
+
+## Phase 4: User Review and Iteration
+
+| Step | Review Item | Resolution | Evidence |
+|------|-------------|------------|----------|
+| 4.1 | Author metadata missing | Prompted user, added to README | Commit 06e2677 |
+| 4.2 | Briefing format (markdown insufficient) | Created LaTeX source + PDF output | Commit 79ac56e |
+| 4.3 | Briefing designed for presenter, not async review | Rewrote for self-service consumption | Commit 9f30fd2 |
+| 4.4 | Repository links missing from briefing | Added links to title, contents, closing slides | Commit 9f30fd2 |
+| 4.5 | Ideation chat log not captured | Added URL to Workflow-Log | Commit 6703cd4 |
+| 4.6 | Audience not explicit in README | Added Intended Audience section | Commit 74d9eef |
+| 4.7 | Ideation transcript not in repo | Moved to artifacts folder | Commit 74d9eef |
+| 4.8 | May/Should guidance for agent flexibility | Added to README Development Agent Guidance | Commit 4dd8c0b |
+| 4.9 | Compliance Statement artifact references outdated | Updated to current file names | Commit 4adb16a |
+
+**Note:** Each review item resulted in a tracked commit. Git history provides
+complete traceability from feedback to resolution.
+
+**Verification Method:** Commits can be inspected via `git log` and `git show <hash>`.
 
 ---
 
