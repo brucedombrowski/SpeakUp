@@ -321,6 +321,12 @@ Security assumptions shall not be weakened.
 
 ## Change Log
 
+Version: 1.3
+
+Briefing deck revised for asynchronous review (self-contained for
+customer/manager consumption without presenter). Added repository links,
+expanded explanatory text, repository contents reference.
+
 Version: 1.2
 
 Added May/Should statements to Development Agent Execution Guidance and

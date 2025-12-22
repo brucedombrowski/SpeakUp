@@ -5,42 +5,82 @@
 
 \usepackage{booktabs}
 \usepackage{tikz}
+\usepackage{hyperref}
 
 \title{SpeakUp}
 \subtitle{A Systems-Engineering Demonstration}
 \author{Bruce Dombrowski}
 \date{December 22, 2025}
 
+% Footer with repo link
+\setbeamertemplate{footline}{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.333333\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertframenumber{} / \inserttotalframenumber\hspace*{2ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
 \begin{document}
 
 \begin{frame}
 \titlepage
+\vspace{-1em}
+\begin{center}
+\small
+Repository: \url{https://github.com/brucedombrowski/SpeakUp}
+\end{center}
 \end{frame}
 
-\begin{frame}{Purpose}
+\begin{frame}{About This Document}
+\textbf{Purpose:} This briefing is designed for asynchronous review by managers and customers. It can be read independently without a presenter.
+
+\vspace{1em}
+
+\textbf{What SpeakUp Is:}
 \begin{itemize}
-\item Systems-engineering demonstration for improving how work is performed, captured, and reviewed
-\item Responds to explicit organizational calls for:
-\begin{itemize}
-\item Constructive employee input
-\item Process improvement ideas
+\item A response to organizational calls for constructive employee input
+\item A response to customer requests for process improvement ideas
+\item A demonstration of systems-engineering discipline applied to knowledge work
+\item Vendor-neutral at the requirements level---no specific tool is proposed
 \end{itemize}
-\item Vendor-neutral at the requirements level
-\end{itemize}
+
+\vspace{1em}
+
+\textbf{Repository:} All artifacts, verification evidence, and this briefing are available at:
+
+\begin{center}
+\url{https://github.com/brucedombrowski/SpeakUp}
+\end{center}
 \end{frame}
 
 \begin{frame}{Problem Statement}
+The current operating environment has systemic constraints that limit effectiveness:
+
+\vspace{0.5em}
+
 \begin{table}
 \small
-\begin{tabular}{@{}ll@{}}
+\begin{tabular}{@{}p{4cm}p{9cm}@{}}
 \toprule
 \textbf{Constraint} & \textbf{Impact} \\
 \midrule
-Fragmented workflows & Mobile, desktop, delivery disconnected \\
-Limited AI in trusted boundaries & Workflow degradation or abstraction \\
-Broadcast email as work proxy & Reduced signal-to-noise \\
-Untracked coordination systems & Limited traceability and auditability \\
-Knowledge attrition risk & Legacy, budget, personnel transition \\
+Fragmented workflows & Mobile ideation, desktop development, and execution environments are disconnected \\
+\addlinespace
+Limited AI in trusted boundaries & Forces workflow degradation or excessive abstraction to stay compliant \\
+\addlinespace
+Broadcast email as work proxy & Reduces signal-to-noise ratio and interrupts deep effort \\
+\addlinespace
+Untracked coordination systems & Billable work in untracked systems limits traceability and auditability \\
+\addlinespace
+Knowledge attrition risk & Legacy decommissioning, budget reduction, and personnel transition threaten institutional knowledge \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -53,199 +93,303 @@ Knowledge attrition risk & Legacy, budget, personnel transition \\
 \textbf{Accountable work begins when thinking is captured.}
 \end{block}
 
-\vspace{1em}
+\vspace{0.5em}
+
+This principle guides the proposed workflow. Work performed in structured, tracked systems maximizes:
+
+\vspace{0.5em}
 
 \begin{table}
-\begin{tabular}{@{}ll@{}}
+\begin{tabular}{@{}p{5cm}p{8cm}@{}}
 \toprule
 \textbf{Principle} & \textbf{Benefit} \\
 \midrule
-Work in structured systems & Automation support \\
-Capture in tracked systems & Traceability \\
-Git as system of record & Auditability \\
-Email for notification only & High-signal communication \\
+Work in structured systems & Enables automation support and reduces manual overhead \\
+Capture in tracked systems & Provides traceability for audits and reviews \\
+Git as system of record & Creates authoritative, version-controlled history \\
+Email for notification only & Preserves email for time-critical coordination, not as work artifact \\
 \bottomrule
 \end{tabular}
 \end{table}
 \end{frame}
 
 \begin{frame}{Proposed Workflow Model}
+The workflow has three phases that can iterate:
+
+\vspace{0.5em}
+
 \begin{center}
 \begin{tikzpicture}[
-    box/.style={rectangle, draw, rounded corners, minimum width=2.5cm, minimum height=1.2cm, align=center, font=\small},
+    box/.style={rectangle, draw, rounded corners, minimum width=3cm, minimum height=1.4cm, align=center, font=\small},
     arrow/.style={->, thick}
 ]
-\node[box] (mobile) at (0,0) {Mobile\\Ideation\\(Text/Voice)};
-\node[box] (ide) at (5,0) {IDE\\Execution\\(AI-Assisted)};
-\node[box] (git) at (10,0) {System of\\Record\\(Git)};
+\node[box] (mobile) at (0,0) {Phase 1\\Mobile Ideation\\(Text/Voice)};
+\node[box] (ide) at (5.5,0) {Phase 2\\IDE Execution\\(AI-Assisted)};
+\node[box] (git) at (11,0) {Phase 3\\System of Record\\(Git Repository)};
 
 \draw[arrow] (mobile) -- (ide);
 \draw[arrow] (ide) -- (git);
-\draw[arrow, dashed] (ide) to[bend right=30] node[below, font=\scriptsize] {Iteration} (mobile);
+\draw[arrow, dashed] (ide) to[bend right=30] node[below, font=\scriptsize] {Iteration as needed} (mobile);
 \end{tikzpicture}
 \end{center}
 
-\vspace{1em}
+\vspace{0.5em}
 
 \begin{columns}
 \column{0.33\textwidth}
 \textbf{Phase 1: Ideation}
 \begin{itemize}
-\scriptsize
-\item Smartphone-based
-\item Text/voice input
-\item Problem framing
+\small
+\item Smartphone-based reasoning
+\item Text input always available
+\item Voice input when possible
+\item No controlled data required
 \end{itemize}
 
 \column{0.33\textwidth}
 \textbf{Phase 2: Execution}
 \begin{itemize}
-\scriptsize
-\item Modern IDE
-\item AI assistance
-\item Trust boundary
+\small
+\item Modern IDE environment
+\item AI assistance (modular)
+\item Within trust boundaries
+\item Produces artifacts
 \end{itemize}
 
 \column{0.33\textwidth}
 \textbf{Phase 3: Record}
 \begin{itemize}
-\scriptsize
-\item Version control
-\item History/rationale
-\item Authoritative
+\small
+\item Git version control
+\item Captures history
+\item Captures rationale
+\item Authoritative source
 \end{itemize}
 \end{columns}
 \end{frame}
 
-\begin{frame}{Functional Requirements}
+\begin{frame}{Functional Requirements (Solution-Agnostic)}
+These requirements define \textit{what} is needed, not \textit{how} to implement it:
+
+\vspace{0.5em}
+
 \begin{table}
-\begin{tabular}{@{}lll@{}}
+\begin{tabular}{@{}llp{8cm}@{}}
 \toprule
-\textbf{ID} & \textbf{Requirement} & \textbf{Type} \\
+\textbf{ID} & \textbf{Type} & \textbf{Requirement} \\
 \midrule
-FR-1 & Mobile ideation capability & Mandatory \\
-FR-2 & IDE-centric execution with AI & Mandatory \\
-FR-3 & Git-based system of record & Mandatory \\
-FR-4 & Identity and trust boundary alignment & Mandatory \\
-FR-5 & High-signal communication model & Recommended \\
+FR-1 & Mandatory & Mobile ideation capability (smartphone, text/voice input) \\
+\addlinespace
+FR-2 & Mandatory & IDE-centric execution with integrated, replaceable AI assistance \\
+\addlinespace
+FR-3 & Mandatory & Git-based system of record capturing artifacts, history, and rationale \\
+\addlinespace
+FR-4 & Mandatory & Identity and trust boundary alignment (security at identity and device) \\
+\addlinespace
+FR-5 & Recommended & High-signal communication model (email for notification only) \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\vspace{0.5em}
+
+\small
+Full requirements with verification traceability are in the repository: \texttt{README.md}
 \end{frame}
 
 \begin{frame}{Security and Compliance}
+SpeakUp maintains existing security posture---no rules are relaxed:
+
+\vspace{0.5em}
+
 \begin{columns}
 \column{0.5\textwidth}
 \textbf{Trust Boundary Alignment}
 \begin{itemize}
-\item Security at authenticated identity
-\item Security at managed device
-\item AI operates in-boundary
-\item No handling rules relaxed
+\item Security enforced at authenticated identity
+\item Security enforced at managed device
+\item AI operates in-boundary as assistive tool
+\item Classification and handling rules unchanged
 \end{itemize}
 
 \column{0.5\textwidth}
-\textbf{Information Handling}
+\textbf{Information Handling (This Project)}
 \begin{itemize}
-\item No sensitive PII
-\item No CUI
-\item No proprietary information
-\item No classified information
+\item No sensitive PII included
+\item No CUI included
+\item No proprietary information included
+\item No classified information included
+\item Verified by inspection (see repository)
 \end{itemize}
 \end{columns}
+
+\vspace{1em}
+
+\small
+Verification evidence: \texttt{verification/Compliance-Statement.md}
 \end{frame}
 
 \begin{frame}{Value Proposition}
+Comparison of current state vs. proposed workflow:
+
+\vspace{0.5em}
+
 \begin{table}
-\small
-\begin{tabular}{@{}lll@{}}
+\begin{tabular}{@{}p{3.5cm}p{4.5cm}p{5cm}@{}}
 \toprule
-\textbf{Capability} & \textbf{Current} & \textbf{Proposed} \\
+\textbf{Capability} & \textbf{Current State} & \textbf{Proposed State} \\
 \midrule
-Work capture & Fragmented, untracked & Structured, versioned \\
-AI assistance & Outside boundary & In-boundary, modular \\
-Knowledge preservation & At-risk & Durable artifacts \\
-Automation readiness & Limited & Maximized \\
-Auditability & Manual effort & Built-in traceability \\
+Work capture & Fragmented across tools, often untracked & Structured, version-controlled in Git \\
+\addlinespace
+AI assistance & Outside trust boundary or unavailable & In-boundary, modular, replaceable \\
+\addlinespace
+Knowledge preservation & At-risk due to personnel transition & Durable artifacts with rationale captured \\
+\addlinespace
+Automation readiness & Limited by unstructured data & Maximized by structured, tracked systems \\
+\addlinespace
+Auditability & Manual effort to reconstruct history & Built-in traceability via Git history \\
 \bottomrule
 \end{tabular}
 \end{table}
 \end{frame}
 
 \begin{frame}{Implementation Approach}
-This demonstration is:
+This project demonstrates the pattern by being the pattern:
 
 \vspace{1em}
 
 \begin{itemize}
 \item \textbf{Concrete enough to execute}
 \begin{itemize}
-\item Working repository
-\item Defined outputs
+\item Working repository with all artifacts
+\item Defined outputs and verification evidence
+\item Reproducible workflow documented in \texttt{artifacts/Workflow-Log.md}
 \end{itemize}
+
+\vspace{0.5em}
 
 \item \textbf{Abstract enough to remain vendor-neutral}
 \begin{itemize}
-\item Requirements-level specification
+\item Requirements specify \textit{what}, not \textit{how}
 \item Implementation choices documented separately
+\item Alternative tools can satisfy same requirements
 \end{itemize}
+
+\vspace{0.5em}
 
 \item \textbf{Self-demonstrating}
 \begin{itemize}
-\item Built using the proposed workflow
+\item This briefing was created using the proposed workflow
+\item Ideation on mobile, execution in IDE, artifacts in Git
 \end{itemize}
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Expected Outputs}
-\begin{enumerate}
-\item \textbf{Briefing Deck} --- This document (vendor-neutral)
-\item \textbf{Repository Structure} --- Git-based with artifacts
-\item \textbf{Verification Compliance Statement} --- Explicit evidence
-\item \textbf{Traceability Matrix} --- Requirements to evidence
-\end{enumerate}
+\begin{frame}{Repository Contents}
+All project artifacts are available for review:
 
-\vspace{1em}
+\vspace{0.5em}
 
 \begin{table}
 \begin{tabular}{@{}ll@{}}
 \toprule
-\textbf{Method} & \textbf{Application} \\
+\textbf{File} & \textbf{Purpose} \\
 \midrule
-Inspection & Document review \\
-Analysis & Compliance assessment \\
-Demonstration & Working repository \\
+\texttt{README.md} & Authoritative requirements and project specification \\
+\addlinespace
+\texttt{briefing/SpeakUp-Briefing.pdf} & This document \\
+\addlinespace
+\texttt{briefing/SpeakUp-Briefing.tex} & Source for this document (version-controlled) \\
+\addlinespace
+\texttt{verification/Compliance-Statement.md} & Information handling verification evidence \\
+\addlinespace
+\texttt{verification/Requirements-Traceability.md} & Requirements to evidence mapping \\
+\addlinespace
+\texttt{artifacts/Workflow-Log.md} & Execution workflow documentation \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\vspace{0.5em}
+
+\begin{center}
+\url{https://github.com/brucedombrowski/SpeakUp}
+\end{center}
+\end{frame}
+
+\begin{frame}{Verification Summary}
+This project produces verification evidence as first-class artifacts:
+
+\vspace{0.5em}
+
+\begin{table}
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Method} & \textbf{Application} & \textbf{Evidence} \\
+\midrule
+Inspection & Document review for completeness & Compliance-Statement.md \\
+\addlinespace
+Analysis & Compliance assessment against requirements & Requirements-Traceability.md \\
+\addlinespace
+Demonstration & Working repository as proof of concept & This repository \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{1em}
+
+\textbf{Key Compliance Findings:}
+\begin{itemize}
+\item All information handling requirements: \textbf{COMPLIANT}
+\item All functional requirements: \textbf{ADDRESSED} or \textbf{DEMONSTRATED}
+\item All expected outputs: \textbf{COMPLETE}
+\end{itemize}
 \end{frame}
 
 \begin{frame}{Recommendation}
-Adopt the SpeakUp workflow model as a pattern for:
+\textbf{Adopt the SpeakUp workflow model as a pattern for:}
 
 \vspace{1em}
 
 \begin{itemize}
 \item Converting thinking into durable, reviewable artifacts
-\item Preserving institutional knowledge
-\item Enabling automation and auditability
-\item Maintaining security and trust boundaries
+\item Preserving institutional knowledge as personnel transition
+\item Enabling automation and reducing manual audit effort
+\item Maintaining security and trust boundaries while using AI assistance
+\item Improving signal-to-noise in organizational communication
+\end{itemize}
+
+\vspace{1em}
+
+\textbf{This pattern is applicable to:}
+\begin{itemize}
+\item Engineering work
+\item Analytical work
+\item Knowledge work generally
 \end{itemize}
 \end{frame}
 
 \begin{frame}{Next Steps}
 \begin{enumerate}
-\item Review this briefing
-\item Identify pilot application area
-\item Establish repository and workflow
-\item Iterate between ideation and execution
-\item Measure and refine
+\item \textbf{Review this briefing} and the repository contents
+\item \textbf{Identify a pilot application area} where the workflow could be applied
+\item \textbf{Establish repository and workflow} for the pilot
+\item \textbf{Iterate} between ideation and execution phases
+\item \textbf{Measure and refine} based on results
 \end{enumerate}
 
-\vspace{2em}
+\vspace{1.5em}
 
 \begin{center}
 \textit{This briefing was produced using the SpeakUp workflow model it describes.}
+
+\vspace{1em}
+
+\textbf{Repository:} \url{https://github.com/brucedombrowski/SpeakUp}
+
+\vspace{0.5em}
+
+\textbf{Contact:} Bruce Dombrowski (Creator)
 \end{center}
 \end{frame}
 
