@@ -7,6 +7,14 @@
 \usepackage{tikz}
 \usepackage{hyperref}
 
+% Time formatting
+\newcount\myhours
+\newcount\myminutes
+\myhours=\time \divide\myhours by 60
+\myminutes=\time \multiply\myhours by 60 \advance\myminutes by -\myhours
+\divide\myhours by 60
+\def\mytime{\ifnum\myhours<10 0\fi\the\myhours:\ifnum\myminutes<10 0\fi\the\myminutes}
+
 \title{SpeakUp}
 \subtitle{A Systems-Engineering Demonstration}
 \author{Bruce Dombrowski}
@@ -35,7 +43,9 @@
 \vspace{-1em}
 \begin{center}
 \small
-Repository: \url{https://github.com/brucedombrowski/SpeakUp}
+Repository: \url{https://github.com/brucedombrowski/SpeakUp}\\
+\vspace{0.3em}
+\scriptsize Generated: \today\ \mytime
 \end{center}
 \end{frame}
 
