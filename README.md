@@ -6,9 +6,9 @@ SpeakUp is a systems-engineering demonstration project.
 
 It is created in direct response to two explicit calls.
 
-An organization’s call for employees to speak up constructively.
+An organization's call for employees to speak up constructively.
 
-A customer’s request for process improvement ideas.
+A customer's request for process improvement ideas.
 
 SpeakUp does not propose a specific tool or vendor solution.
 
@@ -19,6 +19,20 @@ The focus is systems-engineering discipline.
 
 The focus is scalability, automation readiness, auditability, and
 information handling.
+
+---
+
+## Intended Audience
+
+This project and its briefing materials are intended for:
+
+Team leads responsible for workflow and productivity.
+
+Branch managers responsible for process and staffing.
+
+Government customers responsible for oversight and deliverables.
+
+The briefing deck is designed for asynchronous review without a presenter.
 
 ---
 
@@ -321,6 +335,11 @@ Security assumptions shall not be weakened.
 
 ## Change Log
 
+Version: 1.4
+
+Added Intended Audience section. Moved ideation transcript to artifacts
+folder. Updated repository structure to reflect all artifacts.
+
 Version: 1.3
 
 Briefing deck revised for asynchronous review (self-contained for
@@ -429,7 +448,8 @@ SpeakUp/
 ├── README.md                 # Authoritative handoff document
 ├── LICENSE                   # Repository license
 ├── artifacts/
-│   └── Workflow-Log.md       # Execution workflow documentation
+│   ├── Workflow-Log.md       # Execution workflow documentation
+│   └── SpeakUp_ideation_user_plus_summary.md  # Ideation transcript
 ├── briefing/
 │   ├── SpeakUp-Briefing.tex  # Briefing deck source (LaTeX)
 │   └── SpeakUp-Briefing.pdf  # Briefing deck (distributable)
