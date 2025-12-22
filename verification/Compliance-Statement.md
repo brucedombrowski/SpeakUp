@@ -23,8 +23,9 @@ artifacts against stated requirements.
 
 | Artifact | Finding | Status |
 |----------|---------|--------|
-| README.md | Contains role placeholders only, no identifying information | COMPLIANT |
-| SpeakUp-Briefing.md | Contains no personal information | COMPLIANT |
+| README.md | Author name for attribution (not sensitive PII) | COMPLIANT |
+| SpeakUp-Briefing.pdf | Author name for attribution only | COMPLIANT |
+| Ideation transcript | User messages only, no identifying data | COMPLIANT |
 | Compliance-Statement.md | Contains no personal information | COMPLIANT |
 
 **Verification Result: COMPLIANT**
@@ -36,7 +37,8 @@ artifacts against stated requirements.
 | Artifact | Finding | Status |
 |----------|---------|--------|
 | README.md | Systems-level principles only | COMPLIANT |
-| SpeakUp-Briefing.md | Vendor-neutral concepts only | COMPLIANT |
+| SpeakUp-Briefing.pdf | Vendor-neutral concepts only | COMPLIANT |
+| Ideation transcript | Workflow discussion only | COMPLIANT |
 | Compliance-Statement.md | Verification evidence only | COMPLIANT |
 
 **Verification Result: COMPLIANT**
@@ -48,7 +50,8 @@ artifacts against stated requirements.
 | Artifact | Finding | Status |
 |----------|---------|--------|
 | README.md | Generic methodology, no proprietary content | COMPLIANT |
-| SpeakUp-Briefing.md | Public domain concepts | COMPLIANT |
+| SpeakUp-Briefing.pdf | Public domain concepts | COMPLIANT |
+| Ideation transcript | General workflow concepts | COMPLIANT |
 | Compliance-Statement.md | Project-specific evidence only | COMPLIANT |
 
 **Verification Result: COMPLIANT**
@@ -135,10 +138,12 @@ artifacts against stated requirements.
 
 | Output | Requirement | Evidence | Status |
 |--------|-------------|----------|--------|
-| Briefing Deck | Vendor-neutral terminology | briefing/SpeakUp-Briefing.md | COMPLETE |
+| Briefing Deck | Vendor-neutral terminology | briefing/SpeakUp-Briefing.pdf | COMPLETE |
+| Briefing Source | Version-controllable format | briefing/SpeakUp-Briefing.tex | COMPLETE |
 | Repository Structure | Git-based with artifacts | Directory structure created | COMPLETE |
-| README | Authoritative handoff document | README.md present | COMPLETE |
+| README | Authoritative handoff document | README.md v1.4 | COMPLETE |
 | Project Artifacts | Captured in repository | artifacts/, briefing/, verification/ | COMPLETE |
+| Ideation Transcript | Provenance chain | artifacts/SpeakUp_ideation_user_plus_summary.md | COMPLETE |
 | Verification Submittals | Compliance evidence | This document | COMPLETE |
 | Compliance Statement | Explicit verification | This document | COMPLETE |
 
