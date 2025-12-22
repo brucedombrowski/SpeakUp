@@ -20,6 +20,8 @@ demonstrating the proposed ideation-to-execution model.
 
 **Output:** README.md (authoritative handoff document)
 
+**Ideation Chat Log:** https://chatgpt.com/g/g-p-69498cd7ae148191ad3cd4f36597e264
+
 ---
 
 ## Phase 2: Transition to Execution Environment
