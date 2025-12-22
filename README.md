@@ -425,7 +425,9 @@ SpeakUp/
 ├── artifacts/
 │   └── Workflow-Log.md       # Execution workflow documentation
 ├── briefing/
-│   └── SpeakUp-Briefing.md   # Executive briefing deck
+│   ├── SpeakUp-Briefing.tex  # Briefing deck source (LaTeX)
+│   ├── SpeakUp-Briefing.pdf  # Briefing deck (distributable)
+│   └── SpeakUp-Briefing.md   # Briefing deck (markdown reference)
 └── verification/
     ├── Compliance-Statement.md      # Information handling compliance
     └── Requirements-Traceability.md # Requirements to evidence mapping
