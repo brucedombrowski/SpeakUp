@@ -1,0 +1,11 @@
+# LaTeX auxiliary files
+*.aux
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.vrb
+
+# macOS
+.DS_Store
