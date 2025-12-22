@@ -321,6 +321,12 @@ Security assumptions shall not be weakened.
 
 ## Change Log
 
+Version: 1.2
+
+Added May/Should statements to Development Agent Execution Guidance and
+Expected Outputs for tool availability, metadata prompting, and output
+format flexibility.
+
 Version: 1.1
 
 Execution initiated. Repository structure created. Deliverables produced.
@@ -369,6 +375,15 @@ The development agent may update this README during execution.
 
 Any such updates shall follow Change Control.
 
+The development agent may prompt the user for required metadata when
+placeholders are present.
+
+The development agent may verify tool availability before attempting
+operations that depend on external tools.
+
+The development agent should prefer formats that can be produced with
+available tools.
+
 ---
 
 ## Expected Outputs
@@ -376,6 +391,12 @@ Any such updates shall follow Change Control.
 At minimum, execution shall produce a briefing deck.
 
 The briefing deck shall use vendor-neutral terminology.
+
+The briefing deck may be produced as PDF, presentation slides, or
+equivalent distributable format.
+
+The briefing deck source may be LaTeX, Markdown, or equivalent
+version-controllable format.
 
 Execution shall produce a Git-based repository structure.
 
