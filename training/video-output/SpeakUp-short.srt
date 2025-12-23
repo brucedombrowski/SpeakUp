@@ -1,0 +1,104 @@
+1
+00:00:00,000 --> 00:00:04,000
+You have ideas. Good ones. But somewhere between your phone, your laptop, your inbox, and that spreadsheet nobody updates... they die. Not because they're bad. Because your environment kills them.
+
+2
+00:00:04,000 --> 00:00:08,000
+SpeakUp is a workflow pattern that fixes this. Ideation happens anywhere—your phone, a conversation, a whiteboard. Execution happens in one place—an IDE with AI assistance. Everything gets captured automatically to a system of record. No manual logging. No lost context. No excuses.
+
+3
+00:00:08,000 --> 00:00:12,000
+In 8 hours, one person produced 30 commits: a working protocol implementation, security verification, this briefing deck, and full documentation. Not a team. One person. The constraint isn't capability. It's environment.
+
+4
+00:00:12,000 --> 00:00:16,000
+Everything is open source. The briefing, the code, the verification evidence. Link in the description. Go see for yourself.
+
+5
+00:00:16,000 --> 00:00:20,000
+Let's break down what's actually killing your productivity.
+
+6
+00:00:20,000 --> 00:00:24,000
+>
+
+7
+00:00:24,000 --> 00:00:28,000
+The SpeakUp workflow has two active phases and one passive phase.
+
+8
+00:00:28,000 --> 00:00:32,000
+>
+
+9
+00:00:32,000 --> 00:00:36,000
+Now, if you work in government or defense, you're already thinking about objections.
+
+10
+00:00:36,000 --> 00:00:40,000
+>
+
+11
+00:00:40,000 --> 00:00:44,000
+Here's the core point: with the right environment, one person can do the work of an entire team.
+
+12
+00:00:44,000 --> 00:00:48,000
+>
+
+13
+00:00:48,000 --> 00:00:52,000
+Here's what to do next:
+
+14
+00:00:52,000 --> 00:00:56,000
+>
+
+15
+00:00:56,000 --> 00:01:00,000
+Let me show you what this looks like in practice.
+
+16
+00:01:00,000 --> 00:01:04,000
+>
+
+17
+00:01:04,000 --> 00:01:08,000
+Let's talk about verification. Because in regulated environments, 'trust me' doesn't cut it.
+
+18
+00:01:08,000 --> 00:01:12,000
+>
+
+19
+00:01:12,000 --> 00:01:16,000
+If your organization uses Scrum or Agile, you might wonder how this fits.
+
+20
+00:01:16,000 --> 00:01:20,000
+>
+
+21
+00:01:20,000 --> 00:01:24,000
+Let's get practical. How do you actually implement this?
+
+22
+00:01:24,000 --> 00:01:28,000
+>
+
+23
+00:01:28,000 --> 00:01:32,000
+Let me address objections I've heard:
+
+24
+00:01:32,000 --> 00:01:36,000
+>
+
+25
+00:01:36,000 --> 00:01:40,000
+Here's the summary:
+
+26
+00:01:40,000 --> 00:01:44,000
+>
+

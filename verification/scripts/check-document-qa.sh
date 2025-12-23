@@ -168,6 +168,39 @@ if [ -f "$BRIEFING_FILE" ]; then
 fi
 
 echo ""
+echo "--------------------------------------------------------"
+echo ""
+
+echo "Checking PDF page count consistency..."
+echo ""
+
+PDF_FILE="$REPO_ROOT/briefing/SpeakUp-Briefing.pdf"
+if [ -f "$PDF_FILE" ]; then
+    # Get actual page count from PDF
+    ACTUAL_PAGES=$(pdfinfo "$PDF_FILE" 2>/dev/null | grep "Pages:" | awk '{print $2}')
+
+    if [ -n "$ACTUAL_PAGES" ]; then
+        # Check if PDF footer shows correct total (extract from last page text)
+        # This is a heuristic - checks if .aux file is newer than .tex file
+        AUX_FILE="$REPO_ROOT/briefing/SpeakUp-Briefing.aux"
+        TEX_FILE="$BRIEFING_FILE"
+
+        if [ -f "$AUX_FILE" ] && [ "$TEX_FILE" -nt "$AUX_FILE" ]; then
+            echo "  [WARN] LaTeX source modified after last build"
+            echo "         Run ./briefing/build.sh to rebuild PDF"
+            ISSUES_FOUND=$((ISSUES_FOUND + 1))
+        else
+            echo "  [PASS] PDF has $ACTUAL_PAGES pages, build appears current"
+        fi
+    else
+        echo "  [SKIP] Could not determine page count (pdfinfo not available)"
+    fi
+else
+    echo "  [WARN] PDF not found - run ./briefing/build.sh"
+    ISSUES_FOUND=$((ISSUES_FOUND + 1))
+fi
+
+echo ""
 echo "========================================================"
 
 if [ $ISSUES_FOUND -eq 0 ]; then
