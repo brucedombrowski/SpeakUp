@@ -21,18 +21,16 @@ Wire Format (RFC 9174 compliant for Wireshark compatibility):
 - XFER_ACK: 18 bytes (msg_type + flags + transfer_id + ack_len)
 """
 
+import logging
 import socket
 import struct
 import threading
-import logging
-from typing import Optional, Callable, Dict, List, Tuple
-from dataclasses import dataclass, field
+from collections.abc import Callable
+from dataclasses import dataclass
 from enum import IntEnum
-from queue import Queue
 
 from ..core.bundle import Bundle
 from ..core.eid import EndpointID
-
 
 # TCPCL v4 Magic Number: "dtn!"
 TCPCL_MAGIC = b'dtn!'
@@ -171,17 +169,17 @@ class TCPCLConnection:
         self,
         sock: socket.socket,
         local_eid: EndpointID,
-        on_bundle_received: Optional[Callable[[Bundle], None]] = None,
+        on_bundle_received: Callable[[Bundle], None] | None = None,
     ):
         self.sock = sock
         self.local_eid = local_eid
-        self.remote_eid: Optional[EndpointID] = None
+        self.remote_eid: EndpointID | None = None
         self.on_bundle_received = on_bundle_received
 
         self._running = False
-        self._recv_thread: Optional[threading.Thread] = None
+        self._recv_thread: threading.Thread | None = None
         self._transfer_id = 0
-        self._pending_transfers: Dict[int, bytearray] = {}
+        self._pending_transfers: dict[int, bytearray] = {}
 
         self.logger = logging.getLogger(f"tcpcl.{id(self)}")
 
@@ -202,7 +200,7 @@ class TCPCLConnection:
         self._send_session_term(SessionTermReason.UNKNOWN)
         try:
             self.sock.close()
-        except:
+        except Exception:
             pass
 
     def _exchange_contact_headers(self) -> None:
@@ -422,7 +420,7 @@ class TCPCLConnection:
         )
         try:
             self.sock.sendall(msg)
-        except:
+        except Exception:
             pass
 
 
@@ -441,12 +439,12 @@ class TCPConvergenceLayer:
         self.local_eid = local_eid
         self.listen_port = listen_port
 
-        self._connections: Dict[str, TCPCLConnection] = {}
-        self._server_sock: Optional[socket.socket] = None
+        self._connections: dict[str, TCPCLConnection] = {}
+        self._server_sock: socket.socket | None = None
         self._running = False
-        self._accept_thread: Optional[threading.Thread] = None
+        self._accept_thread: threading.Thread | None = None
 
-        self._bundle_handlers: List[Callable[[Bundle], None]] = []
+        self._bundle_handlers: list[Callable[[Bundle], None]] = []
 
         self.logger = logging.getLogger("tcpcl")
 
@@ -497,7 +495,7 @@ class TCPConvergenceLayer:
                 )
                 conn.start()
 
-            except socket.timeout:
+            except TimeoutError:
                 continue
             except Exception as e:
                 if self._running:

@@ -12,13 +12,13 @@ Standards:
 - CCSDS 734.20-O-1 Section 4.3.1
 """
 
-from typing import Optional, Tuple, List, Any
 from dataclasses import dataclass
 from enum import IntFlag
+from typing import Any
 
 from ..core.eid import EndpointID
 from ..core.time import CreationTimestamp, DTNTime
-from ..encoding.cbor import CBOREncoder, cbor_encode
+from ..encoding.cbor import cbor_encode
 
 
 class BundleProcessingFlags(IntFlag):
@@ -102,8 +102,8 @@ class PrimaryBlock:
     lifetime_ms: int
     flags: BundleProcessingFlags = BundleProcessingFlags.NONE
     crc_type: CRCType = CRCType.CRC16
-    fragment_offset: Optional[int] = None
-    total_adu_length: Optional[int] = None
+    fragment_offset: int | None = None
+    total_adu_length: int | None = None
 
     VERSION = 7  # Bundle Protocol Version 7
 
@@ -140,7 +140,7 @@ class PrimaryBlock:
         return bool(self.flags & BundleProcessingFlags.IS_ADMIN_RECORD)
 
     @property
-    def expiration_time(self) -> Optional[DTNTime]:
+    def expiration_time(self) -> DTNTime | None:
         """
         Calculate bundle expiration time.
 
@@ -151,7 +151,7 @@ class PrimaryBlock:
         expiry_ms = self.creation_timestamp.time.milliseconds + self.lifetime_ms
         return DTNTime(milliseconds=expiry_ms)
 
-    def is_expired(self, current_time: Optional[DTNTime] = None) -> bool:
+    def is_expired(self, current_time: DTNTime | None = None) -> bool:
         """
         Check if bundle has expired.
 
@@ -170,7 +170,7 @@ class PrimaryBlock:
 
         return current_time.milliseconds > expiry.milliseconds
 
-    def to_cbor_array(self) -> List[Any]:
+    def to_cbor_array(self) -> list[Any]:
         """
         Convert to CBOR array representation.
 
@@ -219,7 +219,7 @@ class PrimaryBlock:
         return cbor_encode(arr)
 
     @classmethod
-    def from_cbor_array(cls, arr: List[Any]) -> 'PrimaryBlock':
+    def from_cbor_array(cls, arr: list[Any]) -> 'PrimaryBlock':
         """
         Create PrimaryBlock from decoded CBOR array.
 

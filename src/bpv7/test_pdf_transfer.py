@@ -9,11 +9,11 @@ This is a meaningful test: the actual project deliverable
 is transmitted using the protocol we implemented.
 """
 
-import sys
-import os
-import time
-import threading
 import hashlib
+import os
+import sys
+import threading
+import time
 
 # Add src to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -51,7 +51,7 @@ def run_server(ready_event, received_bundles, stop_event):
 
         # Verify it's PDF data
         if bundle.payload.data[:4] == b'%PDF':
-            print(f"  Content:     PDF document detected")
+            print("  Content:     PDF document detected")
 
             # Calculate hash for verification
             md5 = hashlib.md5(bundle.payload.data).hexdigest()
@@ -177,7 +177,7 @@ def main():
     server_thread.start()
 
     # Run client
-    success = run_client(ready_event, pdf_data, pdf_hash)
+    run_client(ready_event, pdf_data, pdf_hash)
 
     # Wait for transfer
     time.sleep(3)
@@ -203,7 +203,7 @@ def main():
             print(f"    Received size:  {len(received.payload.data):,} bytes")
             print(f"    Original MD5:   {pdf_hash}")
             print(f"    Received MD5:   {received_hash}")
-            print(f"    Match:          YES")
+            print("    Match:          YES")
             print()
             print("  This proves:")
             print("    - Complete BPv7 bundle encoding/decoding works")

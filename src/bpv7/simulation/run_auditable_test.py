@@ -22,19 +22,19 @@ Outputs:
     └── test-summary.txt         # Human-readable summary
 """
 
-import sys
-import os
-import time
-import json
-import hashlib
 import argparse
-import threading
+import hashlib
+import json
+import os
 import signal
-from datetime import datetime, timedelta
-from pathlib import Path
-from typing import Optional, List, Dict, Any
-from dataclasses import dataclass, asdict
+import sys
+import threading
+import time
+from dataclasses import asdict, dataclass
+from datetime import datetime
 from enum import Enum
+from pathlib import Path
+from typing import Any
 
 # Add src to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
@@ -63,7 +63,7 @@ class TestConfig:
     hostname: str
     python_version: str
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return asdict(self)
 
 
@@ -77,10 +77,10 @@ class TransferStats:
     los_events: int = 0
     aos_events: int = 0
     errors: int = 0
-    start_time: Optional[str] = None
-    end_time: Optional[str] = None
+    start_time: str | None = None
+    end_time: str | None = None
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return asdict(self)
 
 
@@ -111,9 +111,9 @@ class ContactPlan:
     def __init__(self, duration_hours: float, logger: AuditableLogger):
         self.logger = logger
         self.windows = self._generate_plan(duration_hours)
-        self.start_time: Optional[datetime] = None
+        self.start_time: datetime | None = None
 
-    def _generate_plan(self, duration_hours: float) -> List[Dict]:
+    def _generate_plan(self, duration_hours: float) -> list[dict]:
         """Generate deterministic contact plan."""
         import random
         random.seed(42)  # Deterministic for reproducibility
@@ -205,7 +205,7 @@ class DTNTestRunner:
         self.config = config
         self.logger = logger
         self.stats = TransferStats()
-        self.contact_plan: Optional[ContactPlan] = None
+        self.contact_plan: ContactPlan | None = None
         self.received_data = bytearray()
         self.stop_event = threading.Event()
         self._current_state = LinkState.LOS

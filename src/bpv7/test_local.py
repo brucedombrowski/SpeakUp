@@ -11,19 +11,19 @@ Proves BPv7 bundle transmission by:
 No Wireshark GUI needed - everything in console.
 """
 
-import sys
 import os
-import time
-import threading
-import subprocess
-import tempfile
 import struct
+import subprocess
+import sys
+import tempfile
+import threading
+import time
 
 # Add src to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from bpv7 import Bundle, EndpointID, cbor_encode, cbor_decode
-from bpv7.agent.tcpcl import TCPConvergenceLayer, TCPCL_MAGIC, TCPCL_VERSION
+from bpv7 import Bundle, EndpointID
+from bpv7.agent.tcpcl import TCPCL_MAGIC, TCPConvergenceLayer
 
 PORT = 4556  # IANA assigned TCPCL port
 
@@ -65,7 +65,7 @@ def analyze_tcpcl_packet(data):
     # Check for CBOR indefinite array (bundle start)
     if data[0] == 0x9F:
         print("  [CBOR Bundle Data]")
-        print(f"    0x9F = Indefinite-length array start")
+        print("    0x9F = Indefinite-length array start")
 
         # Try to find bundle structure
         try:
@@ -74,7 +74,7 @@ def analyze_tcpcl_packet(data):
                 break_pos = data.rindex(0xFF)
                 print(f"    0xFF = Break code at offset {break_pos}")
                 print(f"    Bundle size: {break_pos + 1} bytes")
-        except:
+        except Exception:
             pass
 
         return "bundle"
@@ -272,7 +272,7 @@ def main():
     server_thread.start()
 
     # Run client
-    success = run_client(ready_event)
+    run_client(ready_event)
 
     # Wait for bundle to be received
     time.sleep(2)
@@ -286,7 +286,7 @@ def main():
         capture_proc.terminate()
         try:
             capture_proc.wait(timeout=2)
-        except:
+        except Exception:
             capture_proc.kill()
         print("[CAPTURE] Stopped")
 

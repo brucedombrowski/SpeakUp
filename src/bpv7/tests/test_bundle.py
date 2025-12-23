@@ -5,11 +5,11 @@ Verifies bundle structure per RFC 9171 Section 4.2.
 """
 
 import unittest
+
+from ..blocks.payload import PayloadBlock
+from ..blocks.primary import PrimaryBlock
 from ..core.bundle import Bundle
 from ..core.eid import EndpointID
-from ..core.time import DTNTime, CreationTimestamp
-from ..blocks.primary import PrimaryBlock, BundleProcessingFlags
-from ..blocks.payload import PayloadBlock
 
 
 class TestBundleCreation(unittest.TestCase):
@@ -163,13 +163,13 @@ class TestBundleID(unittest.TestCase):
 
     def test_unique_bundle_ids(self):
         """Different bundles have different IDs."""
-        bundle1 = Bundle.create(
+        Bundle.create(
             destination=EndpointID.ipn(2, 1),
             source=EndpointID.ipn(1, 1),
             payload=b"test1",
         )
 
-        bundle2 = Bundle.create(
+        Bundle.create(
             destination=EndpointID.ipn(2, 1),
             source=EndpointID.ipn(1, 1),
             payload=b"test2",

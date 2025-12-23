@@ -13,10 +13,8 @@ Standards:
 - CCSDS 734.20-O-1 Section 4.2.6
 """
 
-from typing import Optional, Tuple
-from datetime import datetime, timezone
 from dataclasses import dataclass
-
+from datetime import UTC, datetime
 
 # DTN Epoch: 2000-01-01 00:00:00 UTC
 DTN_EPOCH_UNIX = 946684800
@@ -42,7 +40,7 @@ class DTNTime:
     @classmethod
     def now(cls) -> 'DTNTime':
         """Create DTNTime for the current moment."""
-        unix_ms = int(datetime.now(timezone.utc).timestamp() * 1000)
+        unix_ms = int(datetime.now(UTC).timestamp() * 1000)
         dtn_ms = unix_ms - (DTN_EPOCH_UNIX * 1000)
         return cls(milliseconds=dtn_ms)
 
@@ -77,7 +75,7 @@ class DTNTime:
         """Convert to timezone-aware datetime object."""
         if self.milliseconds == 0:
             raise ValueError("Cannot convert unknown time to datetime")
-        return datetime.fromtimestamp(self.to_unix(), tz=timezone.utc)
+        return datetime.fromtimestamp(self.to_unix(), tz=UTC)
 
     @property
     def is_unknown(self) -> bool:
@@ -123,12 +121,12 @@ class CreationTimestamp:
         """Create a null timestamp for anonymous bundles (dtn:none source)."""
         return cls(time=DTNTime.unknown(), sequence_number=0)
 
-    def to_cbor_array(self) -> Tuple[int, int]:
+    def to_cbor_array(self) -> tuple[int, int]:
         """Return as CBOR array representation [time_ms, sequence]."""
         return (self.time.milliseconds, self.sequence_number)
 
     @classmethod
-    def from_cbor_array(cls, arr: Tuple[int, int]) -> 'CreationTimestamp':
+    def from_cbor_array(cls, arr: tuple[int, int]) -> 'CreationTimestamp':
         """Create from CBOR array [time_ms, sequence]."""
         if len(arr) != 2:
             raise ValueError("Creation timestamp must be 2-element array")

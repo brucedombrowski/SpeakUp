@@ -20,17 +20,16 @@ Example:
     python3 long_duration_test.py --duration 5 --rate 160
 """
 
-import sys
-import os
-import time
-import threading
 import argparse
 import hashlib
+import os
 import random
 import signal
-from datetime import datetime, timedelta
+import sys
+import threading
+import time
 from dataclasses import dataclass
-from typing import Optional, List
+from datetime import datetime, timedelta
 from enum import Enum
 
 # Add src to path
@@ -72,7 +71,7 @@ class TransferStats:
     segments_received: int = 0
     los_events: int = 0
     aos_events: int = 0
-    start_time: Optional[datetime] = None
+    start_time: datetime | None = None
 
     @property
     def progress_pct(self) -> float:
@@ -108,7 +107,7 @@ def generate_test_payload(size_bytes: int) -> bytes:
     return b''.join(chunks)
 
 
-def create_contact_plan(duration_hours: float) -> List[ContactWindow]:
+def create_contact_plan(duration_hours: float) -> list[ContactWindow]:
     """
     Create a realistic contact plan simulating DSN ground station passes.
 
@@ -155,7 +154,7 @@ class SpaceLinkSimulator:
     def __init__(
         self,
         data_rate_bps: int,
-        contact_plan: List[ContactWindow],
+        contact_plan: list[ContactWindow],
         stats: TransferStats,
     ):
         self.data_rate_bps = data_rate_bps
@@ -163,7 +162,7 @@ class SpaceLinkSimulator:
         self.contact_plan = contact_plan
         self.stats = stats
         self.current_state = LinkState.LOS
-        self.start_time: Optional[datetime] = None
+        self.start_time: datetime | None = None
         self._stop = threading.Event()
 
     def start(self):
@@ -232,8 +231,8 @@ class DTNNode:
         self.link_sim = link_sim
         self.stats = stats
         self.is_sender = is_sender
-        self.cla: Optional[TCPConvergenceLayer] = None
-        self.pending_bundles: List[Bundle] = []
+        self.cla: TCPConvergenceLayer | None = None
+        self.pending_bundles: list[Bundle] = []
         self.received_data = bytearray()
         self._stop = threading.Event()
 
@@ -299,7 +298,7 @@ def run_sender(
         if conn is None:
             try:
                 conn = cla.connect('127.0.0.1', PORT)
-                print(f"\n[SENDER] Connected to receiver")
+                print("\n[SENDER] Connected to receiver")
             except Exception as e:
                 print(f"\n[SENDER] Connection failed: {e}")
                 time.sleep(5)

@@ -9,9 +9,9 @@ Standards:
 - RFC 9171 Section 4.1: CBOR Encoding Requirements
 """
 
-from typing import Any, List, Tuple, Union, Optional
-from enum import IntEnum
 import struct
+from enum import IntEnum
+from typing import Any
 
 
 class CBORMajorType(IntEnum):

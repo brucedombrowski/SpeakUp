@@ -14,10 +14,9 @@ Standards:
 - CCSDS 734.20-O-1 Section 4.2.5
 """
 
-from typing import Union, Tuple, Optional
-from enum import IntEnum
-from dataclasses import dataclass
 import re
+from dataclasses import dataclass
+from enum import IntEnum
 
 
 class EIDScheme(IntEnum):
@@ -53,7 +52,7 @@ class EndpointID:
         ssp: Scheme-specific part (varies by scheme)
     """
     scheme: EIDScheme
-    ssp: Union[int, str, Tuple[int, int]]
+    ssp: int | str | tuple[int, int]
 
     def __post_init__(self):
         # Validate SSP based on scheme
@@ -168,7 +167,7 @@ class EndpointID:
         # Simple heuristic - more sophisticated logic may be needed
         return self.scheme == EIDScheme.IPN or not str(self).startswith("dtn://~")
 
-    def to_cbor_value(self) -> Tuple:
+    def to_cbor_value(self) -> tuple:
         """
         Return CBOR array representation.
 
@@ -185,7 +184,7 @@ class EndpointID:
             return (2, list(self.ssp))
 
     @classmethod
-    def from_cbor_value(cls, value: Tuple) -> 'EndpointID':
+    def from_cbor_value(cls, value: tuple) -> 'EndpointID':
         """
         Create from CBOR array representation.
 

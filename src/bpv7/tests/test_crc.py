@@ -5,7 +5,8 @@ Verifies CRC-16 and CRC-32C per RFC 9171 Section 4.2.1.
 """
 
 import unittest
-from ..encoding.crc import crc16_x25, crc32c, calculate_block_crc
+
+from ..encoding.crc import calculate_block_crc, crc16_x25, crc32c
 
 
 class TestCRC16(unittest.TestCase):

@@ -14,7 +14,6 @@ Standards:
 - RFC 3720 (CRC-32C Castagnoli polynomial)
 """
 
-from typing import Tuple
 
 
 # CRC-16 X.25 (HDLC) polynomial: x^16 + x^12 + x^5 + 1

@@ -6,11 +6,8 @@ and RFC 9171 deterministic encoding requirements.
 """
 
 import unittest
-from ..encoding.cbor import (
-    CBOREncoder, CBORDecoder,
-    cbor_encode, cbor_decode,
-    CBORMajorType
-)
+
+from ..encoding.cbor import cbor_decode, cbor_encode
 
 
 class TestCBOREncoder(unittest.TestCase):

@@ -13,17 +13,15 @@ Standards:
 - CCSDS 734.20-O-1 Section 4.2
 """
 
-from typing import List, Optional, Iterator, Any
+from collections.abc import Iterator
 from dataclasses import dataclass, field
+from typing import Any
 
+from ..blocks.payload import BlockType, CanonicalBlock, PayloadBlock
+from ..blocks.primary import BundleProcessingFlags, CRCType, PrimaryBlock
+from ..encoding.cbor import CBORDecoder, CBOREncoder
 from .eid import EndpointID
 from .time import CreationTimestamp, DTNTime
-from ..blocks.primary import PrimaryBlock, BundleProcessingFlags, CRCType
-from ..blocks.payload import (
-    PayloadBlock, CanonicalBlock, BlockType,
-    PreviousNodeBlock, BundleAgeBlock, HopCountBlock
-)
-from ..encoding.cbor import CBOREncoder, CBORDecoder
 
 
 @dataclass
@@ -50,7 +48,7 @@ class Bundle:
     """
     primary: PrimaryBlock
     payload: PayloadBlock
-    extensions: List[CanonicalBlock] = field(default_factory=list)
+    extensions: list[CanonicalBlock] = field(default_factory=list)
 
     def __post_init__(self):
         # Validate payload block number
@@ -71,7 +69,7 @@ class Bundle:
         source: EndpointID,
         payload: bytes,
         lifetime_ms: int = 3600000,  # 1 hour default
-        report_to: Optional[EndpointID] = None,
+        report_to: EndpointID | None = None,
         flags: BundleProcessingFlags = BundleProcessingFlags.NONE,
     ) -> 'Bundle':
         """
@@ -133,11 +131,11 @@ class Bundle:
         """Check if this bundle contains an administrative record."""
         return self.primary.is_admin_record
 
-    def is_expired(self, current_time: Optional[DTNTime] = None) -> bool:
+    def is_expired(self, current_time: DTNTime | None = None) -> bool:
         """Check if bundle has expired."""
         return self.primary.is_expired(current_time)
 
-    def get_block(self, block_type: BlockType) -> Optional[CanonicalBlock]:
+    def get_block(self, block_type: BlockType) -> CanonicalBlock | None:
         """
         Get extension block by type.
 

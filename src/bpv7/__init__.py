@@ -34,20 +34,20 @@ __standards__ = [
     "RFC 8949",
 ]
 
-from .core.eid import EndpointID, EIDScheme
-from .core.time import DTNTime, CreationTimestamp
-from .core.bundle import Bundle
-from .blocks.primary import PrimaryBlock, BundleProcessingFlags
 from .blocks.payload import (
-    PayloadBlock,
-    CanonicalBlock,
     BlockProcessingFlags,
     BlockType,
-    PreviousNodeBlock,
     BundleAgeBlock,
+    CanonicalBlock,
     HopCountBlock,
+    PayloadBlock,
+    PreviousNodeBlock,
 )
-from .encoding.cbor import cbor_encode, cbor_decode
+from .blocks.primary import BundleProcessingFlags, PrimaryBlock
+from .core.bundle import Bundle
+from .core.eid import EIDScheme, EndpointID
+from .core.time import CreationTimestamp, DTNTime
+from .encoding.cbor import cbor_decode, cbor_encode
 from .encoding.crc import crc16_x25, crc32c
 
 __all__ = [

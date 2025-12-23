@@ -8,14 +8,13 @@ tshark to capture and verify the protocol on the wire.
 Produces machine-readable verification of BPv7 compliance.
 """
 
-import sys
-import os
-import time
-import threading
 import hashlib
+import os
 import subprocess
+import sys
 import tempfile
-import signal
+import threading
+import time
 
 # Add src to path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -121,7 +120,7 @@ def analyze_capture(pcap_file):
         for line in output.stdout.split('\n'):
             if 'Number of packets' in line:
                 results['packet_count'] = int(line.split(':')[1].strip())
-    except:
+    except Exception:
         pass
 
     # Analyze with tshark - look for TCPCL
@@ -134,7 +133,7 @@ def analyze_capture(pcap_file):
                 results['protocols_seen'].update(protocols)
                 if 'tcpcl' in line.lower():
                     results['tcpcl_packets'] += 1
-    except:
+    except Exception:
         pass
 
     # Look for dtn! magic in hex dump
@@ -144,7 +143,7 @@ def analyze_capture(pcap_file):
         if '64 74 6e 21' in output.stdout or 'dtn!' in output.stdout:
             results['has_dtn_magic'] = True
             results['contact_headers'] += output.stdout.count('64 74 6e 21')
-    except:
+    except Exception:
         pass
 
     # Decode as TCPCL and look for segments
@@ -161,7 +160,7 @@ def analyze_capture(pcap_file):
                 results['tcpcl_packets'] += 1
                 if '1' in line:  # XFER_SEGMENT type
                     results['xfer_segments'] += 1
-    except:
+    except Exception:
         pass
 
     # Check for CBOR bundle start (0x9f = indefinite array)
@@ -170,7 +169,7 @@ def analyze_capture(pcap_file):
         output = subprocess.run(cmd, capture_output=True, text=True, timeout=10)
         if '9f 88' in output.stdout:  # Bundle start pattern
             results['bundle_detected'] = True
-    except:
+    except Exception:
         pass
 
     return results
@@ -253,7 +252,7 @@ def main():
     # Check dependencies
     try:
         subprocess.run(['tshark', '--version'], capture_output=True, timeout=5)
-    except:
+    except Exception:
         print("ERROR: tshark not found. Install Wireshark.")
         sys.exit(1)
 
@@ -277,7 +276,7 @@ def main():
 
     print_header("STARTING PACKET CAPTURE")
     print(f"  Capture file: {pcap_file}")
-    print(f"  Interface:    lo0 (loopback)")
+    print("  Interface:    lo0 (loopback)")
     print(f"  Filter:       port {PORT}")
 
     # Start tshark
@@ -303,7 +302,7 @@ def main():
     print("  Server:  ipn:2.1 (Mars Relay) listening on port 4556")
     print("  Client:  ipn:1.1 (Earth) connecting...")
 
-    success = run_client(ready_event, pdf_data)
+    run_client(ready_event, pdf_data)
 
     print("  Transfer: Complete")
 
@@ -317,7 +316,7 @@ def main():
         tshark_proc.terminate()
         try:
             tshark_proc.wait(timeout=3)
-        except:
+        except Exception:
             tshark_proc.kill()
 
     # Analyze capture

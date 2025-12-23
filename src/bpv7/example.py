@@ -6,18 +6,16 @@ Demonstrates Bundle Protocol Version 7 operations per
 CCSDS 734.20-O-1 / RFC 9171.
 """
 
-import sys
 import os
+import sys
 
 # Add src to path for imports
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from bpv7 import (
     Bundle,
-    EndpointID,
     DTNTime,
-    cbor_encode,
-    cbor_decode,
+    EndpointID,
     crc16_x25,
     crc32c,
 )

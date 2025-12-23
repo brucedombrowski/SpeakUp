@@ -5,7 +5,8 @@ Verifies EID handling per RFC 9171 Section 4.2.5.
 """
 
 import unittest
-from ..core.eid import EndpointID, EIDScheme
+
+from ..core.eid import EIDScheme, EndpointID
 
 
 class TestEndpointID(unittest.TestCase):

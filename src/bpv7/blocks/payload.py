@@ -13,10 +13,13 @@ Standards:
 - CCSDS 734.20-O-1 Sections 4.3.2-4.3.3
 """
 
-from typing import Optional, List, Any
-from dataclasses import dataclass, field
-from enum import IntFlag, IntEnum
 from abc import ABC, abstractmethod
+from dataclasses import dataclass, field
+from enum import IntEnum, IntFlag
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from ..core.eid import EndpointID
 
 from ..encoding.cbor import cbor_encode
 
@@ -100,7 +103,7 @@ class CanonicalBlock(ABC):
         """Return block-type-specific data for CBOR encoding."""
         pass
 
-    def to_cbor_array(self) -> List[Any]:
+    def to_cbor_array(self) -> list[Any]:
         """
         Convert to CBOR array representation.
 
@@ -156,7 +159,7 @@ class PayloadBlock(CanonicalBlock):
         return self.data
 
     @classmethod
-    def from_cbor_array(cls, arr: List[Any]) -> 'PayloadBlock':
+    def from_cbor_array(cls, arr: list[Any]) -> 'PayloadBlock':
         """Create PayloadBlock from decoded CBOR array."""
         if len(arr) < 5:
             raise ValueError(f"Canonical block too short: {len(arr)} elements")
@@ -191,6 +194,12 @@ class PayloadBlock(CanonicalBlock):
         return f"PayloadBlock({len(self.data)} bytes)"
 
 
+def _default_endpoint_id():
+    """Factory for default EndpointID to avoid circular import."""
+    from ..core.eid import EndpointID
+    return EndpointID.none()
+
+
 @dataclass
 class PreviousNodeBlock(CanonicalBlock):
     """
@@ -201,14 +210,13 @@ class PreviousNodeBlock(CanonicalBlock):
 
     Block type: 6
     """
-    from ..core.eid import EndpointID
-    previous_node: 'EndpointID' = field(default_factory=lambda: EndpointID.none())
+    previous_node: "EndpointID" = field(default_factory=_default_endpoint_id)
 
     @property
     def block_type(self) -> BlockType:
         return BlockType.PREVIOUS_NODE
 
-    def get_data(self) -> List:
+    def get_data(self) -> list:
         """Return previous node EID as CBOR array."""
         return list(self.previous_node.to_cbor_value())
 
@@ -257,7 +265,7 @@ class HopCountBlock(CanonicalBlock):
     def block_type(self) -> BlockType:
         return BlockType.HOP_COUNT
 
-    def get_data(self) -> List[int]:
+    def get_data(self) -> list[int]:
         """Return [hop_limit, hop_count] array."""
         return [self.hop_limit, self.hop_count]
 

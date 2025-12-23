@@ -21,12 +21,37 @@ echo ""
 
 # Track status
 FAILED=0
+TOTAL_STEPS=6
+STEP=0
 
 # ------------------------------------------------------
-# 1. Run BPv7 Tests
+# 1. Python Code Quality (ruff)
 # ------------------------------------------------------
+STEP=$((STEP + 1))
 echo "========================================================"
-echo "[1/4] Running BPv7 Protocol Tests"
+echo "[$STEP/$TOTAL_STEPS] Running Python Code Quality Checks"
+echo "========================================================"
+
+if command -v ruff &> /dev/null; then
+    if ruff check src/; then
+        echo "  Ruff Linting: OK"
+    else
+        echo "  Ruff Linting: FAILED"
+        FAILED=1
+    fi
+else
+    echo "  Ruff not installed (pip install ruff)"
+    echo "  Skipping code quality checks"
+fi
+
+echo ""
+
+# ------------------------------------------------------
+# 2. Run BPv7 Tests
+# ------------------------------------------------------
+STEP=$((STEP + 1))
+echo "========================================================"
+echo "[$STEP/$TOTAL_STEPS] Running BPv7 Protocol Tests"
 echo "========================================================"
 
 if PYTHONPATH=src python3 -m pytest src/bpv7/tests/ -v 2>/dev/null; then
@@ -47,8 +72,9 @@ echo ""
 # ------------------------------------------------------
 # 2. Run PDF Transfer Test (BPv7 Integration)
 # ------------------------------------------------------
+STEP=$((STEP + 1))
 echo "========================================================"
-echo "[2/4] Running BPv7 PDF Transfer Test"
+echo "[$STEP/$TOTAL_STEPS] Running BPv7 PDF Transfer Test"
 echo "========================================================"
 
 if PYTHONPATH=src python3 src/bpv7/test_pdf_transfer.py 2>&1 | grep -q "SUCCESS"; then
@@ -63,8 +89,9 @@ echo ""
 # ------------------------------------------------------
 # 3. Run Security Verification Scans
 # ------------------------------------------------------
+STEP=$((STEP + 1))
 echo "========================================================"
-echo "[3/4] Running Security Verification Scans"
+echo "[$STEP/$TOTAL_STEPS] Running Security Verification Scans"
 echo "========================================================"
 
 if [ -x "verification/scripts/run-all-scans.sh" ]; then
@@ -82,10 +109,11 @@ fi
 echo ""
 
 # ------------------------------------------------------
-# 4. Build Briefing PDF (LAST - so it can reference real artifacts)
+# 4. Build Briefing PDF
 # ------------------------------------------------------
+STEP=$((STEP + 1))
 echo "========================================================"
-echo "[4/4] Building Briefing PDF"
+echo "[$STEP/$TOTAL_STEPS] Building Briefing PDF"
 echo "========================================================"
 
 if [ -f "briefing/build.sh" ]; then
@@ -99,6 +127,46 @@ if [ -f "briefing/build.sh" ]; then
     cd "$SCRIPT_DIR"
 else
     echo "  Briefing build script not found"
+    FAILED=1
+fi
+
+echo ""
+
+# ------------------------------------------------------
+# 5. Generate Training Video (after briefing so slides are current)
+# ------------------------------------------------------
+STEP=$((STEP + 1))
+echo "========================================================"
+echo "[$STEP/$TOTAL_STEPS] Generating Training Video"
+echo "========================================================"
+
+if [ -x "training/generate-video.sh" ]; then
+    cd training
+
+    # Generate visuals first, then video
+    if ./generate-visuals.sh > /dev/null 2>&1; then
+        echo "  Visual Assets: OK"
+    else
+        echo "  Visual Assets: FAILED"
+        FAILED=1
+    fi
+
+    if ./generate-video.sh --tts --broll --version short > /dev/null 2>&1; then
+        # Verify video was actually created
+        if [ -f "video-output/SpeakUp-short.mp4" ]; then
+            VIDEO_SIZE=$(ls -lh video-output/SpeakUp-short.mp4 | awk '{print $5}')
+            echo "  Training Video: OK ($VIDEO_SIZE)"
+        else
+            echo "  Training Video: FAILED (file not created)"
+            FAILED=1
+        fi
+    else
+        echo "  Training Video: FAILED"
+        FAILED=1
+    fi
+    cd "$SCRIPT_DIR"
+else
+    echo "  Video generation script not found"
     FAILED=1
 fi
 
@@ -120,6 +188,8 @@ if [ $FAILED -eq 0 ]; then
     echo "    - verification/Security-Attestation.md"
     echo "    - verification/Compliance-Statement.md"
     echo "    - verification/Requirements-Traceability.md"
+    echo "    - training/video-output/SpeakUp-short.mp4"
+    echo "    - training/visual-assets/*.png"
     echo ""
     exit 0
 else
