@@ -8,7 +8,7 @@ It is created in direct response to two explicit calls.
 
 An organization's call for employees to speak up constructively.
 
-A customer's request for process improvement ideas.
+A customer's request for process improvement recommendations.
 
 SpeakUp does not propose a specific tool or vendor solution.
 

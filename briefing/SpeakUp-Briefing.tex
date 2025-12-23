@@ -8,6 +8,11 @@
 \usepackage{hyperref}
 \usepackage{lmodern}
 \usepackage{graphicx}
+\usepackage[table]{xcolor}
+
+% Alternating row colors for tables (automatic)
+\definecolor{rowgray}{gray}{0.92}
+\rowcolors{2}{rowgray}{white}
 
 % Time formatting
 \newcount\myhours
@@ -59,9 +64,10 @@ Repository: \url{https://github.com/brucedombrowski/SpeakUp}\\
 \textbf{What SpeakUp Is:}
 \begin{itemize}
 \item A response to organizational calls for constructive feedback
-\item A response to customer requests for process improvement ideas
+\item A response to customer requests for process improvement recommendations
 \item A demonstration of systems-engineering discipline applied to knowledge work
 \item Vendor-neutral at the requirements level---no specific tool is proposed
+\item Open source (MIT License)---free to use, modify, and distribute
 \end{itemize}
 
 \vspace{1em}
@@ -80,100 +86,118 @@ The current operating environment has systemic constraints that limit effectiven
 
 \begin{table}
 \footnotesize
-\begin{tabular}{@{}ll@{}}
+\begin{tabular}{@{}cll@{}}
 \toprule
-\textbf{Constraint} & \textbf{Impact} \\
+& \textbf{Constraint} & \textbf{Impact} \\
 \midrule
-Fragmented workflows & Disconnected mobile, desktop, execution \\
-Limited AI in trusted boundaries & Workflow degradation to stay compliant \\
-Broadcast email as work proxy & Reduced signal-to-noise; interrupts focus \\
-Untracked coordination & Limited traceability and auditability \\
-Knowledge attrition risk & Personnel transition loses institutional knowledge \\
+1. & Fragmented workflows & Disconnected mobile, desktop, and execution environments \\
+2. & Tool accessibility & AI (Artificial Intelligence) unavailable or outside trust boundaries \\
+3. & Inbox-centric work & Critical decisions buried in email threads \\
+4. & Untracked coordination & Limited traceability and auditability \\
+5. & Knowledge attrition & Institutional knowledge lost along with personnel \\
+6. & Budget constraints & Reduced investment in tooling, training, modernization \\
+7. & Legacy systems & Aging infrastructure facing decommissioning \\
+8. & Regulatory burden & Compliance overhead diverts resources from mission work \\
 \bottomrule
 \end{tabular}
 \end{table}
 \end{frame}
 
-\begin{frame}{Governing Principle}
-\begin{block}{Core Principle}
-\textbf{Thinking is necessary and expected.}
-
-\textbf{Accountable work begins when thinking is captured.}
+\begin{frame}{Governing Principles}
+\begin{block}{}
+\textbf{Resources should be organized to maximize utility.}
 \end{block}
 
 \vspace{0.5em}
 
-This principle guides the proposed workflow. Work performed in structured, tracked systems maximizes:
+This is achieved through three guiding principles:
 
 \vspace{0.5em}
 
 \begin{table}
-\begin{tabular}{@{}p{5cm}p{8cm}@{}}
+\begin{tabular}{@{}p{3.5cm}p{9.5cm}@{}}
 \toprule
-\textbf{Principle} & \textbf{Benefit} \\
+\textbf{Principle} & \textbf{Application} \\
 \midrule
-Work in structured systems & Enables automation support and reduces manual overhead \\
-Capture in tracked systems & Provides traceability for audits and reviews \\
-Git as system of record & Creates authoritative, version-controlled history \\
-Email for notification only & Preserves email for time-critical coordination, not as work artifact \\
+Transparency & Work is visible to stakeholders; decisions based on shared understanding \\
+Inspection & Artifacts and progress reviewed frequently; issues identified early \\
+Accountability & Work captured in tracked systems; history preserved for audit \\
 \bottomrule
 \end{tabular}
 \end{table}
-\end{frame}
-
-\begin{frame}{Proposed Workflow Model}
-The workflow has three phases that can iterate:
 
 \vspace{0.5em}
 
+\footnotesize\textit{Reference: Adapted from Scrum Guide empirical pillars (Schwaber \& Sutherland, 2020)}
+\end{frame}
+
+\begin{frame}{Proposed Workflow Model}
+
 \begin{center}
 \begin{tikzpicture}[
-    box/.style={rectangle, draw, rounded corners, minimum width=3cm, minimum height=1.4cm, align=center, font=\small},
-    arrow/.style={->, thick}
+    workbox/.style={rectangle, draw, rounded corners, minimum width=3.5cm, minimum height=1.5cm, align=center, font=\small, fill=blue!10},
+    recordbox/.style={rectangle, draw, rounded corners, minimum width=8cm, minimum height=1.2cm, align=center, font=\small, fill=gray!20},
+    arrow/.style={<->, very thick, >=stealth}
 ]
-\node[box] (mobile) at (0,0) {Phase 1\\Mobile Ideation\\(Text/Voice)};
-\node[box] (ide) at (5.5,0) {Phase 2\\IDE Execution\\(AI-Assisted)};
-\node[box] (git) at (11,0) {Phase 3\\System of Record\\(Git Repository)};
+% Work phases side by side
+\node[workbox] (mobile) at (0,0) {\textbf{Ideation}\\(AI-Assisted)};
+\node[workbox] (ide) at (5,0) {\textbf{Execution}\\(AI-Assisted)};
+% Device callouts added by ChatGPT (GPT-5, Codex CLI) — positioned clear of boxes
+\begin{scope}[shift={(-3.2,0)}, line width=0.6pt]
+  % Phone icon
+  \draw[rounded corners=2pt, fill=blue!10, draw=blue!60] (-0.7,-1.1) rectangle (0.7,1.1);
+  \draw[rounded corners=1pt, fill=white] (-0.45,-0.85) rectangle (0.45,0.85);
+  \fill[blue!60] (0,-0.95) circle (0.06);
+\end{scope}
+\begin{scope}[shift={(8.2,0)}, line width=0.6pt]
+  % Laptop icon
+  \draw[rounded corners=2pt, fill=gray!20, draw=gray!60] (-1.1,-0.35) rectangle (1.1,0.65);
+  \draw[fill=white] (-0.9,-0.2) rectangle (0.9,0.5);
+  \fill[gray!60] (-1.3,-0.35) rectangle (1.3,-0.55);
+\end{scope}
 
+% Bidirectional between phases
 \draw[arrow] (mobile) -- (ide);
-\draw[arrow] (ide) -- (git);
-\draw[arrow, dashed] (ide) to[bend right=30] node[below, font=\footnotesize] {Iteration as needed} (mobile);
+
+% System of record below, spanning both
+\node[recordbox] (git) at (2.5,-2.2) {\textbf{System of Record} --- captures automatically};
+
+% Dashed arrows showing automatic capture
+\draw[->, thick, dashed] (mobile) -- (git);
+\draw[->, thick, dashed] (ide) -- (git);
 \end{tikzpicture}
 \end{center}
 
 \vspace{0.5em}
 
 \begin{columns}
-\column{0.33\textwidth}
-\textbf{Phase 1: Ideation}
+\column{0.5\textwidth}
+\textbf{Ideation}
+% Updated by ChatGPT (GPT-5, Codex CLI) — clarified ideation bullets
 \begin{itemize}
 \small
-\item Smartphone-based reasoning
-\item Text input always available
-\item Voice input when possible
-\item No controlled data required
+\item Frame objectives, constraints, and risks rapidly
+\item Capture rough drafts and decision notes (mobile or desktop)
+\item Use text or voice to keep momentum anywhere
+\item AI assists synthesis and recommends next steps
 \end{itemize}
 
-\column{0.33\textwidth}
-\textbf{Phase 2: Execution}
+\column{0.5\textwidth}
+\textbf{Execution}
 \begin{itemize}
 \small
-\item Modern IDE environment
-\item AI assistance (modular)
-\item Within trust boundaries
-\item Produces artifacts
-\end{itemize}
-
-\column{0.33\textwidth}
-\textbf{Phase 3: Record}
-\begin{itemize}
-\small
-\item Git version control
-\item Captures history
-\item Captures rationale
-\item Lifecycle management
+\item Turn drafts into versioned, reviewable artifacts
+\item Build inside an IDE with reproducible commands
+\item AI assists implementation, refactoring, review, and turnover files
+\item Execute inside managed, trusted boundaries
 \end{itemize}
 \end{columns}
+
+\vspace{0.5em}
+
+\begin{center}
+\small Work flows freely between ideation and execution. Recording happens automatically.
+\end{center}
 \end{frame}
 
 \begin{frame}{Functional Requirements (Solution-Agnostic)}
@@ -187,13 +211,9 @@ These requirements define \textit{what} is needed, not \textit{how} to implement
 \textbf{ID} & \textbf{Type} & \textbf{Requirement} \\
 \midrule
 FR-1 & Mandatory & Mobile ideation capability (smartphone, text/voice input) \\
-\addlinespace
 FR-2 & Mandatory & IDE-centric execution with integrated, replaceable AI assistance \\
-\addlinespace
 FR-3 & Mandatory & Git-based system of record capturing artifacts, history, and rationale \\
-\addlinespace
 FR-4 & Mandatory & Identity and trust boundary alignment (security at identity and device) \\
-\addlinespace
 FR-5 & Recommended & High-signal communication model (email for notification only) \\
 \bottomrule
 \end{tabular}
@@ -206,32 +226,38 @@ Full requirements with verification traceability are in the repository: \texttt{
 \end{frame}
 
 \begin{frame}{Security and Compliance}
-SpeakUp maintains existing security posture---no rules are relaxed:
+\textbf{This project is defensible. You can review it without relaxing any rules.}
 
 \vspace{0.5em}
 
 \begin{columns}
 \column{0.5\textwidth}
-\textbf{Trust Boundary Alignment}
+\textbf{What This Repository Contains}
 \begin{itemize}
-\item Security enforced at authenticated identity
-\item Security enforced at managed device
-\item AI operates in-boundary as assistive tool
-\item Classification and handling rules unchanged
+\item No sensitive PII (Personally Identifiable Information)
+\item No CUI (Controlled Unclassified Information)
+\item No proprietary information
+\item No classified information
+\item Verified by automated scans producing objective evidence
 \end{itemize}
 
 \column{0.5\textwidth}
-\textbf{Information Handling (This Project)}
+\textbf{Your Implementation Choices}
 \begin{itemize}
-\item No sensitive PII included
-\item No CUI included
-\item No proprietary information included
-\item No classified information included
-\item Verified by inspection (see repository)
+\item AI location (cloud, on-prem, local)
+\item Repository hosting (GitHub, GitLab, self-hosted)
+\item Device policies (BYOD---Bring Your Own Device, managed, air-gapped)
+\item Security policies (your existing rules apply)
 \end{itemize}
 \end{columns}
 
-\vspace{1em}
+\vspace{0.5em}
+
+\begin{center}
+\small\textit{The workflow pattern is agnostic. Your security posture is your choice.}
+\end{center}
+
+\vspace{0.3em}
 
 \small
 Verification evidence: \texttt{verification/Compliance-Statement.md}
@@ -255,13 +281,9 @@ Verification evidence: \texttt{verification/Compliance-Statement.md}
 \textbf{Capability} & \textbf{Current State} & \textbf{Proposed State} \\
 \midrule
 Work capture & Fragmented, untracked & Structured, version-controlled \\
-\addlinespace
 AI assistance & Outside boundary or unavailable & In-boundary, modular \\
-\addlinespace
 Knowledge preservation & At-risk & Durable artifacts \\
-\addlinespace
 Automation readiness & Limited & Maximized \\
-\addlinespace
 Auditability & Manual effort & Built-in traceability \\
 \bottomrule
 \end{tabular}
@@ -299,10 +321,6 @@ This project demonstrates the pattern by being the pattern:
 \end{itemize}
 \end{itemize}
 
-\vspace{0.5em}
-
-\textbf{Example project using this workflow:}\\
-\url{https://github.com/brucedombrowski/OpenSourceHouseProject}
 \end{frame}
 
 \begin{frame}{Repository Contents}
@@ -317,17 +335,11 @@ All project artifacts are available for review:
 \textbf{File} & \textbf{Purpose} \\
 \midrule
 \texttt{README.md} & Authoritative requirements and project specification \\
-\addlinespace
 \texttt{briefing/SpeakUp-Briefing.pdf} & This document \\
-\addlinespace
 \texttt{verification/Compliance-Statement.md} & Information handling verification evidence \\
-\addlinespace
 \texttt{verification/Requirements-Traceability.md} & Requirements to evidence mapping \\
-\addlinespace
 \texttt{verification/PII-Scan-Results.md} & Automated PII scan test results \\
-\addlinespace
 \texttt{verification/scripts/check-pii.sh} & Automated verification script \\
-\addlinespace
 \texttt{artifacts/Workflow-Log.md} & Execution workflow documentation \\
 \bottomrule
 \end{tabular}
@@ -418,7 +430,7 @@ This project produces verification evidence as first-class artifacts:
 \footnotesize
 \begin{tabular}{@{}lll@{}}
 \toprule
-\textbf{Method} & \textbf{Application} & \textbf{NIST Control} \\
+\textbf{Method} & \textbf{Application} & \textbf{NIST\textsuperscript{*} Control} \\
 \midrule
 Manual Inspection & Document review & --- \\
 PII Pattern Scan & Phone, SSN, IP detection & SI-12 \\
@@ -430,6 +442,9 @@ File Integrity & SHA-256 hashes & SI-7 \\
 \bottomrule
 \end{tabular}
 \end{table}
+
+\vspace{0.2em}
+{\scriptsize \textsuperscript{*}NIST: National Institute of Standards and Technology (SP 800-53 Rev 5)}
 
 \vspace{0.3em}
 
@@ -539,6 +554,20 @@ File Integrity & SHA-256 hashes & SI-7 \\
 
 \textbf{Contact:} Bruce Dombrowski (Creator)
 \end{center}
+\end{frame}
+
+\begin{frame}{References}
+\footnotesize
+\begin{itemize}
+\item Schwaber, K. \& Sutherland, J. (2020). \textit{The Scrum Guide}. \url{https://scrumguides.org}
+\item NIST SP 800-53 Rev 5. \textit{Security and Privacy Controls for Information Systems}
+\item NIST SP 800-171. \textit{Protecting Controlled Unclassified Information}
+\item FAR 11.104. \textit{Use of Brand Name or Equal Purchase Descriptions}
+\item RFC 9171. \textit{Bundle Protocol Version 7} (CCSDS 734.20-O-1)
+\item RFC 9174. \textit{Delay-Tolerant Networking TCP Convergence-Layer Protocol Version 4}
+\item RFC 8949. \textit{Concise Binary Object Representation (CBOR)}
+\item ISO 32000-2:2020. \textit{PDF/A Archival Format}
+\end{itemize}
 \end{frame}
 
 \end{document}
