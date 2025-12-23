@@ -23,33 +23,10 @@ echo ""
 FAILED=0
 
 # ------------------------------------------------------
-# 1. Build Briefing PDF
+# 1. Run BPv7 Tests
 # ------------------------------------------------------
 echo "========================================================"
-echo "[1/4] Building Briefing PDF"
-echo "========================================================"
-
-if [ -f "briefing/build.sh" ]; then
-    cd briefing
-    if ./build.sh; then
-        echo "  Briefing PDF: OK"
-    else
-        echo "  Briefing PDF: FAILED"
-        FAILED=1
-    fi
-    cd "$SCRIPT_DIR"
-else
-    echo "  Briefing build script not found"
-    FAILED=1
-fi
-
-echo ""
-
-# ------------------------------------------------------
-# 2. Run BPv7 Tests
-# ------------------------------------------------------
-echo "========================================================"
-echo "[2/4] Running BPv7 Protocol Tests"
+echo "[1/4] Running BPv7 Protocol Tests"
 echo "========================================================"
 
 if PYTHONPATH=src python3 -m pytest src/bpv7/tests/ -v 2>/dev/null; then
@@ -68,10 +45,10 @@ fi
 echo ""
 
 # ------------------------------------------------------
-# 3. Run PDF Transfer Test (BPv7 Integration)
+# 2. Run PDF Transfer Test (BPv7 Integration)
 # ------------------------------------------------------
 echo "========================================================"
-echo "[3/4] Running BPv7 PDF Transfer Test"
+echo "[2/4] Running BPv7 PDF Transfer Test"
 echo "========================================================"
 
 if PYTHONPATH=src python3 src/bpv7/test_pdf_transfer.py 2>&1 | grep -q "SUCCESS"; then
@@ -84,10 +61,10 @@ fi
 echo ""
 
 # ------------------------------------------------------
-# 4. Run Security Verification Scans
+# 3. Run Security Verification Scans
 # ------------------------------------------------------
 echo "========================================================"
-echo "[4/4] Running Security Verification Scans"
+echo "[3/4] Running Security Verification Scans"
 echo "========================================================"
 
 if [ -x "verification/scripts/run-all-scans.sh" ]; then
@@ -99,6 +76,29 @@ if [ -x "verification/scripts/run-all-scans.sh" ]; then
     fi
 else
     echo "  Security scan script not found"
+    FAILED=1
+fi
+
+echo ""
+
+# ------------------------------------------------------
+# 4. Build Briefing PDF (LAST - so it can reference real artifacts)
+# ------------------------------------------------------
+echo "========================================================"
+echo "[4/4] Building Briefing PDF"
+echo "========================================================"
+
+if [ -f "briefing/build.sh" ]; then
+    cd briefing
+    if ./build.sh; then
+        echo "  Briefing PDF: OK"
+    else
+        echo "  Briefing PDF: FAILED"
+        FAILED=1
+    fi
+    cd "$SCRIPT_DIR"
+else
+    echo "  Briefing build script not found"
     FAILED=1
 fi
 

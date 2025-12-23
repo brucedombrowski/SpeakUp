@@ -1,0 +1,11 @@
+{
+  "test_id": "DTN-20251223_105411",
+  "start_time": "2025-12-23T10:54:11.966198",
+  "duration_hours": 0.05,
+  "data_rate_bps": 16000,
+  "segment_size": 256,
+  "payload_size": 216000,
+  "payload_sha256": "47fa3c4667e56d8ddd6f60b247bc4ae25974bfcccbd16bea09a1669ab32ad7de",
+  "hostname": "Bruces-MacBook-Pro.local",
+  "python_version": "3.14.0"
+}

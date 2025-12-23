@@ -153,16 +153,18 @@ if [ "$USE_BROLL" = true ] && [ -d "$VISUALS_DIR" ]; then
     # Short version B-roll sequence
     # This matches the Video-Storyboard.md sections:
     # [0:00-0:15] Hook - visual assets
-    # [0:15-0:45] Problem + Solution - slides 3, 5
+    # [0:15-0:45] Problem + Solution - slides 3, 5 (workflow)
     # [0:45-1:15] Proof - slide 16, commit graph
     # [1:15-1:30] CTA - QR code, repo structure
+    #
+    # NOTE: Use actual slides, not B-roll graphics, for diagrams that appear in deck
+    # This ensures B-roll stays in sync with slide updates (see ISSUES.md ISSUE-001)
     BROLL_SEQUENCE=(
         "hook-ideas-die.png:3"
         "inbox-overload.png:3"
         "access-denied.png:3"
-        "slide-03.png:8"
-        "workflow-diagram.png:5"
-        "slide-05.png:8"
+        "slide-03.png:6"
+        "slide-05.png:10"
         "one-person.png:5"
         "commit-graph.png:6"
         "slide-16.png:6"
@@ -266,9 +268,10 @@ if [ -n "$AUDIO_FILE" ] && [ -f "$AUDIO_FILE" ]; then
     # Check if background music exists
     if [ -f "$MUSIC_FILE" ]; then
         echo "  Mixing in background music..."
-        # Mix narration (full volume) with background music (20% volume)
+        # Mix narration (full volume) with background music (70% volume)
+        # Music should be clearly audible but not compete with narration
         ffmpeg -y -i "$SLIDESHOW_FILE" -i "$AUDIO_FILE" -i "$MUSIC_FILE" \
-            -filter_complex "[1:a]volume=1.0[narration];[2:a]volume=0.2[music];[narration][music]amix=inputs=2:duration=first[aout]" \
+            -filter_complex "[1:a]volume=1.0[narration];[2:a]volume=0.7[music];[narration][music]amix=inputs=2:duration=first[aout]" \
             -map 0:v -map "[aout]" \
             -c:v copy -c:a aac -shortest \
             "$OUTPUT_FILE" 2>/dev/null

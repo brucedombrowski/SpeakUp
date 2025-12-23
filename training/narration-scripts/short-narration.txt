@@ -1,4 +1,4 @@
 You have ideas. Good ones. But somewhere between your phone, your laptop, your inbox, and that spreadsheet nobody updates... they die. Not because they're bad. Because your environment kills them.
 SpeakUp is a workflow pattern that fixes this. Ideation happens anywhere—your phone, a conversation, a whiteboard. Execution happens in one place—an IDE with AI assistance. Everything gets captured automatically to a system of record. No manual logging. No lost context. No excuses.
-In 8 hours, one person produced 30 commits: a working protocol implementation, security verification, this briefing deck, and full documentation. Not a team. One person. The constraint isn't capability. It's environment.
+One person. 40+ commits. A working protocol implementation, security verification, this briefing deck, and full documentation. Not a team. One person. The constraint isn't capability. It's environment.
 Everything is open source. The briefing, the code, the verification evidence. Link in the description. Go see for yourself.

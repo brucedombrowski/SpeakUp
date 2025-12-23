@@ -1,0 +1,51 @@
+[2025-12-23T10:54:11.931706] [INFO] Generating test payload...
+[2025-12-23T10:54:11.966399] [INFO] Saved test manifest to /Users/brucedombrowski/SpeakUp/verification/test-results/dtn-test-20251223_105411/test-manifest.json
+[2025-12-23T10:54:11.966421] [INFO] ============================================================
+[2025-12-23T10:54:11.966428] [INFO] AUDITABLE DTN TRANSFER TEST
+[2025-12-23T10:54:11.966433] [INFO] ============================================================
+[2025-12-23T10:54:11.966438] [INFO] Test ID: DTN-20251223_105411
+[2025-12-23T10:54:11.966444] [INFO] Duration: 0.05 hours
+[2025-12-23T10:54:11.966449] [INFO] Data rate: 16000 bps
+[2025-12-23T10:54:11.966454] [INFO] Payload: 216,000 bytes
+[2025-12-23T10:54:11.966458] [INFO] Payload SHA-256: 47fa3c4667e56d8ddd6f60b247bc4ae25974bfcccbd16bea09a1669ab32ad7de
+[2025-12-23T10:54:11.966591] [INFO] Saved payload to /Users/brucedombrowski/SpeakUp/verification/test-results/dtn-test-20251223_105411/payload-sent.bin
+[2025-12-23T10:54:11.966609] [INFO] Contact Plan:
+[2025-12-23T10:54:11.966615] [INFO]   1. Goldstone: +0s for 180s
+[2025-12-23T10:54:11.966620] [INFO] Starting receiver node (ipn:2.1)...
+[2025-12-23T10:54:11.966809] [INFO] Contact plan started with 1 windows
+[2025-12-23T10:54:11.966881] [INFO] === AOS === Signal acquired
+[2025-12-23T10:54:13.970083] [INFO] Sender starting: 216,000 bytes to transmit
+[2025-12-23T10:54:13.971839] [INFO] Sender connected to receiver
+[2025-12-23T10:54:20.573899] [INFO] Progress: 5.9% (12,800/216,000 bytes)
+[2025-12-23T10:54:27.190082] [INFO] Progress: 11.9% (25,600/216,000 bytes)
+[2025-12-23T10:54:33.803998] [INFO] Progress: 17.8% (38,400/216,000 bytes)
+[2025-12-23T10:54:40.411120] [INFO] Progress: 23.7% (51,200/216,000 bytes)
+[2025-12-23T10:54:46.999606] [INFO] Progress: 29.6% (64,000/216,000 bytes)
+[2025-12-23T10:54:53.596847] [INFO] Progress: 35.6% (76,800/216,000 bytes)
+[2025-12-23T10:55:00.183147] [INFO] Progress: 41.5% (89,600/216,000 bytes)
+[2025-12-23T10:55:06.793778] [INFO] Progress: 47.4% (102,400/216,000 bytes)
+[2025-12-23T10:55:13.404046] [INFO] Progress: 53.3% (115,200/216,000 bytes)
+[2025-12-23T10:55:20.006245] [INFO] Progress: 59.3% (128,000/216,000 bytes)
+[2025-12-23T10:55:26.614134] [INFO] Progress: 65.2% (140,800/216,000 bytes)
+[2025-12-23T10:55:33.220738] [INFO] Progress: 71.1% (153,600/216,000 bytes)
+[2025-12-23T10:55:39.828855] [INFO] Progress: 77.0% (166,400/216,000 bytes)
+[2025-12-23T10:55:46.436577] [INFO] Progress: 83.0% (179,200/216,000 bytes)
+[2025-12-23T10:55:53.035752] [INFO] Progress: 88.9% (192,000/216,000 bytes)
+[2025-12-23T10:55:59.643748] [INFO] Progress: 94.8% (204,800/216,000 bytes)
+[2025-12-23T10:56:05.420129] [INFO] Sender complete: 844 segments sent
+[2025-12-23T10:56:08.370541] [INFO] Saved received payload to /Users/brucedombrowski/SpeakUp/verification/test-results/dtn-test-20251223_105411/payload-received.bin
+[2025-12-23T10:56:08.370976] [INFO] ============================================================
+[2025-12-23T10:56:08.371016] [INFO] TEST COMPLETE
+[2025-12-23T10:56:08.371035] [INFO] ============================================================
+[2025-12-23T10:56:08.371087] [INFO] Bytes sent: 216,000
+[2025-12-23T10:56:08.371107] [INFO] Bytes received: 216,000
+[2025-12-23T10:56:08.371126] [INFO] Segments sent: 844
+[2025-12-23T10:56:08.371143] [INFO] Segments received: 844
+[2025-12-23T10:56:08.371162] [INFO] LOS events: 0
+[2025-12-23T10:56:08.371178] [INFO] AOS events: 1
+[2025-12-23T10:56:08.371192] [INFO] Errors: 0
+[2025-12-23T10:56:08.371207] [INFO] Expected SHA-256: 47fa3c4667e56d8ddd6f60b247bc4ae25974bfcccbd16bea09a1669ab32ad7de
+[2025-12-23T10:56:08.371228] [INFO] Received SHA-256: 47fa3c4667e56d8ddd6f60b247bc4ae25974bfcccbd16bea09a1669ab32ad7de
+[2025-12-23T10:56:08.371243] [INFO] VERIFICATION: PASS
+[2025-12-23T10:56:08.375376] [INFO] Test artifacts saved to: /Users/brucedombrowski/SpeakUp/verification/test-results/dtn-test-20251223_105411
+[2025-12-23T10:56:08.375419] [INFO] Verification: PASS

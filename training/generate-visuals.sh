@@ -33,7 +33,7 @@ echo "Generating commit graph visual..."
 
 convert -size 1920x1080 xc:"$BG_DARK" \
     -font "Monaco" -pointsize 48 -fill "$FG_WHITE" \
-    -gravity north -annotate +0+80 "SpeakUp: 42 Commits in 2 Days" \
+    -gravity north -annotate +0+80 "SpeakUp: 40+ Commits" \
     -pointsize 24 -fill "$FG_GREEN" \
     -gravity north -annotate +0+160 "Verifiable. Open Source. Inspect it yourself." \
     \( -size 1600x600 xc:"$BG_TERMINAL" \
@@ -47,8 +47,7 @@ convert -size 1920x1080 xc:"$BG_DARK" \
        -annotate +40+200 "72d0247 Change theme to CambridgeUS/dolphin" \
        -annotate +40+230 "..." \
        -fill "$FG_YELLOW" \
-       -annotate +40+280 "30+ commits in first 8 hours" \
-       -annotate +40+310 "42 commits total in 2 days" \
+       -annotate +40+280 "40+ commits and growing" \
        -fill "$FG_GREEN" \
        -annotate +40+360 "Protocol implementation + Security verification + Documentation" \
     \) -gravity center -geometry +0+100 -composite \
@@ -254,7 +253,7 @@ convert -size 1920x1080 xc:"$BG_DARK" \
     -pointsize 48 -fill "$FG_WHITE" \
     -annotate +0+50 "person" \
     -pointsize 28 -fill "$FG_YELLOW" \
-    -annotate +0+130 "30 commits • 8 hours • Complete system" \
+    -annotate +0+130 "40+ commits • Complete system" \
     -pointsize 24 -fill "$FG_BLUE" \
     -annotate +0+200 "The constraint isn't capability. It's environment." \
     "$VISUALS_DIR/one-person.png"
