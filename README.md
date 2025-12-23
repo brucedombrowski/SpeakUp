@@ -335,6 +335,13 @@ Security assumptions shall not be weakened.
 
 ## Change Log
 
+Version: 1.6
+
+Updated TCPCL to RFC 9174 wire format for Wireshark compatibility. Added
+long-duration DTN simulation with LOS/AOS periods (Voyager-class 160 bps).
+Added master build.sh script. Security scan results now written to .scans/
+directory (git-ignored) for local inspection while keeping repository clean.
+
 Version: 1.5
 
 Added BPv7 (Bundle Protocol Version 7) implementation as demonstration
@@ -453,6 +460,8 @@ Execution in progress. Initial deliverables complete.
 SpeakUp/
 ├── README.md                 # Authoritative handoff document
 ├── LICENSE                   # Repository license
+├── build.sh                  # Master build script (builds all, runs scans)
+├── .scans/                   # Local security scan results (git-ignored)
 ├── artifacts/
 │   ├── Workflow-Log.md       # Execution workflow documentation
 │   └── SpeakUp_ideation_user_plus_summary.md  # Ideation transcript
@@ -464,7 +473,9 @@ SpeakUp/
 │   └── bpv7/                 # Bundle Protocol v7 implementation
 │       ├── core/             # Core bundle structures
 │       ├── blocks/           # Block type implementations
+│       ├── agent/            # TCPCL convergence layer (RFC 9174)
 │       ├── encoding/         # CBOR encoding/CRC
+│       ├── simulation/       # Long-duration DTN tests
 │       └── tests/            # Protocol compliance tests
 └── verification/
     ├── Compliance-Statement.md      # Information handling compliance

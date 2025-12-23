@@ -24,7 +24,11 @@ set -e
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
 ATTESTATION_FILE="$REPO_ROOT/verification/Security-Attestation.md"
+SCANS_DIR="$REPO_ROOT/.scans"
 TIMESTAMP=$(date "+%Y-%m-%d %H:%M:%S")
+
+# Create .scans directory for detailed local results (git-ignored)
+mkdir -p "$SCANS_DIR"
 
 echo "========================================================"
 echo "SpeakUp Security Verification Suite"
@@ -41,25 +45,46 @@ echo ""
 OVERALL_STATUS="PASS"
 FAIL_COUNT=0
 
-# Run each scan (suppress detailed output)
+# Initialize summary log
+SUMMARY_LOG="$SCANS_DIR/scan-summary-$(date +%Y%m%d_%H%M%S).log"
+echo "SpeakUp Security Scan Results" > "$SUMMARY_LOG"
+echo "=============================" >> "$SUMMARY_LOG"
+echo "Timestamp: $TIMESTAMP" >> "$SUMMARY_LOG"
+echo "" >> "$SUMMARY_LOG"
+
+# Run each scan (save detailed output to .scans/ directory)
 run_scan() {
     local scan_name="$1"
     local script="$2"
     local control_ref="$3"
+    local output_file="$4"
 
     echo "Running: $scan_name"
     echo "  Control: $control_ref"
 
     if [ -x "$script" ]; then
-        if "$script" > /dev/null 2>&1; then
+        # Run scan and capture output to .scans/ directory
+        local detail_file="$SCANS_DIR/$output_file"
+        echo "=== $scan_name ===" > "$detail_file"
+        echo "Timestamp: $TIMESTAMP" >> "$detail_file"
+        echo "Control: $control_ref" >> "$detail_file"
+        echo "" >> "$detail_file"
+
+        if "$script" >> "$detail_file" 2>&1; then
             echo "  Result: PASS"
+            echo "PASS  Status: PASS" >> "$detail_file"
+            echo "$scan_name: PASS" >> "$SUMMARY_LOG"
         else
             OVERALL_STATUS="FAIL"
             FAIL_COUNT=$((FAIL_COUNT + 1))
-            echo "  Result: FAIL (details not disclosed)"
+            echo "  Result: FAIL (details in .scans/$output_file)"
+            echo "Status: FAIL" >> "$detail_file"
+            echo "$scan_name: FAIL (see $output_file)" >> "$SUMMARY_LOG"
         fi
+        echo "  Details: .scans/$output_file"
     else
         echo "  Result: SKIPPED (script not found)"
+        echo "$scan_name: SKIPPED" >> "$SUMMARY_LOG"
     fi
     echo ""
 }
@@ -67,23 +92,28 @@ run_scan() {
 # Run all scans with NIST control references
 run_scan "PII Pattern Scan" \
     "$SCRIPT_DIR/check-pii.sh" \
-    "NIST 800-53: SI-12 (Information Management)"
+    "NIST 800-53: SI-12 (Information Management)" \
+    "pii-scan.log"
 
 run_scan "Malware Scan (ClamAV)" \
     "$SCRIPT_DIR/check-malware.sh" \
-    "NIST 800-53: SI-3 (Malicious Code Protection)"
+    "NIST 800-53: SI-3 (Malicious Code Protection)" \
+    "malware-scan.log"
 
 run_scan "Vulnerability/Secrets Scan" \
     "$SCRIPT_DIR/check-vulnerabilities.sh" \
-    "NIST 800-53: SA-11 (Developer Testing)"
+    "NIST 800-53: SA-11 (Developer Testing)" \
+    "vulnerability-scan.log"
 
 run_scan "IEEE 802.3 MAC Address Scan" \
     "$SCRIPT_DIR/check-mac-addresses.sh" \
-    "NIST 800-53: SC-8 (Transmission Confidentiality)"
+    "NIST 800-53: SC-8 (Transmission Confidentiality)" \
+    "mac-address-scan.log"
 
 run_scan "Host Security Configuration" \
     "$SCRIPT_DIR/check-host-security.sh" \
-    "NIST 800-53: CM-6 (Configuration Settings)"
+    "NIST 800-53: CM-6 (Configuration Settings)" \
+    "host-security-scan.log"
 
 echo "========================================================"
 
@@ -181,8 +211,8 @@ EOF
     echo "Attestation written to: $ATTESTATION_FILE"
     echo ""
 
-    # Clean up any detailed scan results (only attestation is published)
-    echo "Cleaning up detailed scan results..."
+    # Clean up any detailed scan results from verification/ (only attestation is published)
+    echo "Cleaning up old scan results from verification/..."
     rm -f "$REPO_ROOT/verification/PII-Scan-Results.md" 2>/dev/null || true
     rm -f "$REPO_ROOT/verification/Malware-Scan-Results.md" 2>/dev/null || true
     rm -f "$REPO_ROOT/verification/Vulnerability-Scan-Results.md" 2>/dev/null || true
@@ -190,7 +220,19 @@ EOF
     rm -f "$REPO_ROOT/verification/Host-Security-Attestation.md" 2>/dev/null || true
     rm -f "$REPO_ROOT/verification/Security-Verification-Report.md" 2>/dev/null || true
 
-    echo "Done. Only Security-Attestation.md is retained."
+    # Write overall status to summary
+    echo "" >> "$SUMMARY_LOG"
+    echo "OVERALL: PASS" >> "$SUMMARY_LOG"
+
+    echo "Done. Only Security-Attestation.md is retained in repository."
+    echo ""
+    echo "Detailed scan results available locally in .scans/ (git-ignored):"
+    echo "  - $SCANS_DIR/pii-scan.log"
+    echo "  - $SCANS_DIR/malware-scan.log"
+    echo "  - $SCANS_DIR/vulnerability-scan.log"
+    echo "  - $SCANS_DIR/mac-address-scan.log"
+    echo "  - $SCANS_DIR/host-security-scan.log"
+    echo "  - $SUMMARY_LOG"
     exit 0
 
 else
@@ -201,19 +243,32 @@ else
     echo ""
     echo "IMPORTANT: Failure details are NOT written to repository."
 
+    # Write overall status to summary
+    echo "" >> "$SUMMARY_LOG"
+    echo "OVERALL: FAIL ($FAIL_COUNT scan(s) failed)" >> "$SUMMARY_LOG"
+
     # Remove any existing attestation if scans fail
     if [ -f "$ATTESTATION_FILE" ]; then
         rm "$ATTESTATION_FILE"
         echo "Previous attestation removed."
     fi
 
-    # Clean up all scan result files
+    # Clean up all scan result files from verification/
     rm -f "$REPO_ROOT/verification/PII-Scan-Results.md" 2>/dev/null || true
     rm -f "$REPO_ROOT/verification/Malware-Scan-Results.md" 2>/dev/null || true
     rm -f "$REPO_ROOT/verification/Vulnerability-Scan-Results.md" 2>/dev/null || true
     rm -f "$REPO_ROOT/verification/MAC-Address-Scan-Results.md" 2>/dev/null || true
     rm -f "$REPO_ROOT/verification/Host-Security-Attestation.md" 2>/dev/null || true
     rm -f "$REPO_ROOT/verification/Security-Verification-Report.md" 2>/dev/null || true
+
+    echo ""
+    echo "Review detailed scan results in .scans/ (git-ignored):"
+    echo "  - $SCANS_DIR/pii-scan.log"
+    echo "  - $SCANS_DIR/malware-scan.log"
+    echo "  - $SCANS_DIR/vulnerability-scan.log"
+    echo "  - $SCANS_DIR/mac-address-scan.log"
+    echo "  - $SCANS_DIR/host-security-scan.log"
+    echo "  - $SUMMARY_LOG"
 
     exit 1
 fi

@@ -9,3 +9,16 @@
 
 # macOS
 .DS_Store
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Security scan results (NEVER commit - sensitive vulnerability data)
+# These are generated locally for review but excluded from repo
+.scans/
+
+# Temporary test artifacts
+/tmp/
+*.pcap
