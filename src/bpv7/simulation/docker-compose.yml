@@ -1,0 +1,114 @@
+# BPv7 Space Network Simulation
+#
+# Simulates a DTN network with configurable delay and loss
+# to model space communication links.
+#
+# Network Topology:
+#   Earth Station (node 1) <---> Relay Satellite (node 2) <---> Mars Lander (node 3)
+#
+# Usage:
+#   docker-compose up -d
+#   docker-compose exec earth bash
+#
+version: '3.8'
+
+services:
+  # Earth Ground Station
+  earth:
+    build:
+      context: ../../..
+      dockerfile: src/bpv7/simulation/Dockerfile
+    container_name: dtn-earth
+    hostname: earth
+    networks:
+      earth-relay:
+        ipv4_address: 10.1.1.10
+    volumes:
+      - ./config/earth:/dtn/config
+      - earth-sdr:/dtn/sdr
+    cap_add:
+      - NET_ADMIN  # For tc/netem delay simulation
+    command: >
+      bash -c "
+        echo 'Earth station ready';
+        tail -f /dev/null
+      "
+
+  # Deep Space Relay Satellite
+  relay:
+    build:
+      context: ../../..
+      dockerfile: src/bpv7/simulation/Dockerfile
+    container_name: dtn-relay
+    hostname: relay
+    networks:
+      earth-relay:
+        ipv4_address: 10.1.1.20
+      relay-mars:
+        ipv4_address: 10.2.1.20
+    volumes:
+      - ./config/relay:/dtn/config
+      - relay-sdr:/dtn/sdr
+    cap_add:
+      - NET_ADMIN
+    command: >
+      bash -c "
+        echo 'Relay satellite ready';
+        tail -f /dev/null
+      "
+
+  # Mars Lander
+  mars:
+    build:
+      context: ../../..
+      dockerfile: src/bpv7/simulation/Dockerfile
+    container_name: dtn-mars
+    hostname: mars
+    networks:
+      relay-mars:
+        ipv4_address: 10.2.1.30
+    volumes:
+      - ./config/mars:/dtn/config
+      - mars-sdr:/dtn/sdr
+    cap_add:
+      - NET_ADMIN
+    command: >
+      bash -c "
+        echo 'Mars lander ready';
+        tail -f /dev/null
+      "
+
+  # Link simulator - applies delay/loss to simulate space links
+  link-sim:
+    image: ubuntu:22.04
+    container_name: dtn-link-sim
+    network_mode: host
+    privileged: true
+    volumes:
+      - ./scripts:/scripts
+    command: >
+      bash -c "
+        echo 'Link simulator - apply tc rules to containers';
+        echo 'Use: docker exec dtn-earth tc qdisc add dev eth0 root netem delay 1000ms';
+        tail -f /dev/null
+      "
+
+networks:
+  # Earth to Relay link (near-Earth, ~1 second delay)
+  earth-relay:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.1.1.0/24
+
+  # Relay to Mars link (deep space, ~20 minute delay)
+  relay-mars:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.2.1.0/24
+
+volumes:
+  earth-sdr:
+  relay-sdr:
+  mars-sdr:

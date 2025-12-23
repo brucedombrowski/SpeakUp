@@ -1,0 +1,47 @@
+# ION Configuration for Mars Lander (Node 3)
+#
+# Standards: CCSDS 734.20-O-1 / RFC 9171
+# Reference: ION Deployment Guide
+#
+# This configures an ION BPv7 node for the Mars lander
+# receiving bundles via the relay satellite.
+
+## Initialize ION node
+1 3 ''
+
+## Start ION administration
+s
+
+## Add contact plan (Mars <-> Relay)
+# Orbiter passes: 15 min contact every 2 hours
+a contact +0 +900 3 2 500000
+a contact +0 +900 2 3 500000
+a contact +7200 +8100 3 2 500000
+a contact +7200 +8100 2 3 500000
+a contact +14400 +15300 3 2 500000
+a contact +14400 +15300 2 3 500000
+
+## Add range (local - negligible delay)
+a range +0 +86400 3 2 0.001
+a range +0 +86400 2 3 0.001
+
+## Configure scheme
+a scheme ipn 'ipnfw' 'ipnadminep'
+
+## Add endpoint for receiving bundles
+a endpoint ipn:3.1 q
+
+## Add endpoint for ping service
+a endpoint ipn:3.2 q
+
+## Configure protocol
+a protocol tcp 1400 100
+
+## Add outduct to relay (node 2)
+a outduct tcp 10.2.1.20:4556 tcpclo
+
+## Add induct for incoming connections
+a induct tcp 10.2.1.30:4556 tcpcli
+
+## Start the node
+s

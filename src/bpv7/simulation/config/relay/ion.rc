@@ -1,0 +1,65 @@
+# ION Configuration for Relay Satellite (Node 2)
+#
+# Standards: CCSDS 734.20-O-1 / RFC 9171
+# Reference: ION Deployment Guide
+#
+# This configures an ION BPv7 node for the relay satellite
+# (e.g., Mars Reconnaissance Orbiter) bridging Earth and Mars.
+
+## Initialize ION node
+1 2 ''
+
+## Start ION administration
+s
+
+## Add contact plan (Relay <-> Earth)
+a contact +0 +86400 2 1 1000000
+a contact +0 +86400 1 2 1000000
+
+## Add contact plan (Relay <-> Mars)
+# Orbiter passes over lander: 15 min contact every 2 hours
+a contact +0 +900 2 3 500000
+a contact +0 +900 3 2 500000
+a contact +7200 +8100 2 3 500000
+a contact +7200 +8100 3 2 500000
+a contact +14400 +15300 2 3 500000
+a contact +14400 +15300 3 2 500000
+a contact +21600 +22500 2 3 500000
+a contact +21600 +22500 3 2 500000
+a contact +28800 +29700 2 3 500000
+a contact +28800 +29700 3 2 500000
+
+## Add range (Earth - 10 min one-way light time)
+a range +0 +86400 2 1 600
+a range +0 +86400 1 2 600
+
+## Add range (Mars - negligible local delay)
+a range +0 +86400 2 3 0.001
+a range +0 +86400 3 2 0.001
+
+## Configure scheme
+a scheme ipn 'ipnfw' 'ipnadminep'
+
+## Add endpoint for receiving bundles
+a endpoint ipn:2.1 q
+
+## Add endpoint for administrative bundles
+a endpoint ipn:2.0 q
+
+## Configure protocol
+a protocol tcp 1400 100
+
+## Add outduct to Earth (node 1)
+a outduct tcp 10.1.1.10:4556 tcpclo
+
+## Add outduct to Mars (node 3)
+a outduct tcp 10.2.1.30:4556 tcpclo
+
+## Add induct for incoming connections (Earth side)
+a induct tcp 10.1.1.20:4556 tcpcli
+
+## Add induct for incoming connections (Mars side)
+a induct tcp 10.2.1.20:4556 tcpcli
+
+## Start the node
+s
