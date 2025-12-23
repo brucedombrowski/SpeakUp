@@ -7,6 +7,7 @@
 \usepackage{tikz}
 \usepackage{hyperref}
 \usepackage{lmodern}
+\usepackage{graphicx}
 
 % Time formatting
 \newcount\myhours
@@ -493,6 +494,27 @@ File Integrity & SHA-256 hashes & SI-7 \\
 \vspace{0.3em}
 
 \textbf{Key Insight:} 8 hours produced: BPv7 protocol implementation, TCPCL transport, security suite, briefing deck, verification artifacts, and documentation. Each commit captures discrete, traceable work.
+\end{frame}
+
+\begin{frame}{Iteration Example: Theme Selection}
+\begin{center}
+\textbf{Four theme variants produced via rapid iteration:}
+
+\vspace{0.5em}
+
+\begin{tabular}{cc}
+\includegraphics[width=0.35\textwidth]{theme-screenshots/theme-madrid.png} &
+\includegraphics[width=0.35\textwidth]{theme-screenshots/theme-singapore.png} \\
+\footnotesize Madrid/Default & \footnotesize Singapore/Seahorse \\[1em]
+\includegraphics[width=0.35\textwidth]{theme-screenshots/theme-cambridge.png} &
+\includegraphics[width=0.35\textwidth]{theme-screenshots/theme-boadilla.png} \\
+\footnotesize CambridgeUS/Dolphin & \footnotesize Boadilla/Crane \\
+\end{tabular}
+
+\vspace{0.5em}
+
+\footnotesize Each variant is a separate commit. Stakeholder selects preferred style. History preserved.
+\end{center}
 \end{frame}
 
 \begin{frame}{Next Steps}

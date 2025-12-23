@@ -13,7 +13,7 @@ have been verified to meet security requirements through automated scanning.
 
 | Field | Value |
 |-------|-------|
-| Attestation Date | 2025-12-23 00:29:00 |
+| Attestation Date | 2025-12-23 00:55:07 |
 | Repository | SpeakUp |
 | Overall Status | **PASS** |
 

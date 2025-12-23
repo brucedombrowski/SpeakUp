@@ -63,11 +63,17 @@ run_scan() {
     echo "  Control: $control_ref"
 
     if [ -x "$script" ]; then
+        # Compute script MD5 for integrity verification
+        local script_md5=$(md5 -q "$script" 2>/dev/null || md5sum "$script" | cut -d' ' -f1)
+        local script_path="${script#$REPO_ROOT/}"
+
         # Run scan and capture output to .scans/ directory
         local detail_file="$SCANS_DIR/$output_file"
         echo "=== $scan_name ===" > "$detail_file"
         echo "Timestamp: $TIMESTAMP" >> "$detail_file"
         echo "Control: $control_ref" >> "$detail_file"
+        echo "Script: $script_path" >> "$detail_file"
+        echo "Script MD5: $script_md5" >> "$detail_file"
         echo "" >> "$detail_file"
 
         if "$script" >> "$detail_file" 2>&1; then
