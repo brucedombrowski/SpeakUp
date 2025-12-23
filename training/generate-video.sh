@@ -416,6 +416,22 @@ fi
 # Get video info
 DURATION=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$OUTPUT_FILE" | cut -d. -f1)
 SIZE=$(du -h "$OUTPUT_FILE" | cut -f1)
+BUILD_TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+
+# Write metadata file for provenance
+cat > "$OUTPUT_DIR/video-metadata.json" << METADATA
+{
+  "filename": "SpeakUp-${VERSION}.mp4",
+  "version": "${VERSION}",
+  "generated": "${BUILD_TIMESTAMP}",
+  "duration_seconds": ${DURATION},
+  "size": "${SIZE}",
+  "tts_enabled": ${USE_TTS},
+  "tts_voice": "${TTS_VOICE}",
+  "broll_enabled": ${USE_BROLL},
+  "generator": "SpeakUp/training/generate-video.sh"
+}
+METADATA
 
 echo ""
 echo "========================================================"
@@ -423,6 +439,7 @@ echo "Video Generation Complete"
 echo "========================================================"
 echo ""
 echo "Output: $OUTPUT_FILE"
+echo "Generated: $BUILD_TIMESTAMP"
 echo "Duration: ${DURATION}s"
 echo "Size: $SIZE"
 echo ""
