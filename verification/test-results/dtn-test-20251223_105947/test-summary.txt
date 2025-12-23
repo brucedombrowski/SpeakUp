@@ -1,0 +1,35 @@
+============================================================
+DTN TRANSFER TEST - OBJECTIVE QUALITY EVIDENCE
+============================================================
+
+Test ID:        DTN-20251223_105947
+Date:           2025-12-23T10:59:47.415539
+Duration:       5.0 hours
+Data Rate:      160 bps
+Payload Size:   216,000 bytes
+
+Results:
+  Bytes Sent:     216,000
+  Bytes Received: 216,000
+  Segments:       844 sent / 844 received
+  LOS Events:     2
+  AOS Events:     3
+  Errors:         0
+
+Verification:
+  Expected SHA-256: 47fa3c4667e56d8ddd6f60b247bc4ae25974bfcccbd16bea09a1669ab32ad7de
+  Received SHA-256: 47fa3c4667e56d8ddd6f60b247bc4ae25974bfcccbd16bea09a1669ab32ad7de
+  Status:           PASS
+
+Artifacts:
+  - payload-received.bin
+  - payload-sent.bin
+  - test-log.txt
+  - test-manifest.json
+  - test-summary.txt
+  - transfer-stats.json
+  - checksums.sha256
+
+To verify checksums:
+  cd /Users/brucedombrowski/SpeakUp/verification/test-results/dtn-test-20251223_105947
+  shasum -a 256 -c checksums.sha256

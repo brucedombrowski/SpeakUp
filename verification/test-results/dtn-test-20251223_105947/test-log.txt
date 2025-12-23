@@ -32,3 +32,27 @@
 [2025-12-23T12:54:43.433079] [INFO] Progress: 53.3% (115,200/216,000 bytes)
 [2025-12-23T13:05:23.594406] [INFO] Progress: 59.3% (128,000/216,000 bytes)
 [2025-12-23T13:16:03.786787] [INFO] Progress: 65.2% (140,800/216,000 bytes)
+[2025-12-23T13:26:43.986985] [INFO] Progress: 71.1% (153,600/216,000 bytes)
+[2025-12-23T13:37:24.153282] [INFO] Progress: 77.0% (166,400/216,000 bytes)
+[2025-12-23T13:41:15.920111] [INFO] === LOS === Signal lost
+[2025-12-23T14:21:34.422715] [INFO] === AOS === Signal acquired
+[2025-12-23T14:28:24.769614] [INFO] Progress: 83.0% (179,200/216,000 bytes)
+[2025-12-23T14:39:05.131925] [INFO] Progress: 88.9% (192,000/216,000 bytes)
+[2025-12-23T14:49:45.504046] [INFO] Progress: 94.8% (204,800/216,000 bytes)
+[2025-12-23T14:59:05.874260] [INFO] Sender complete: 844 segments sent
+[2025-12-23T14:59:08.360583] [INFO] Saved received payload to /Users/brucedombrowski/SpeakUp/verification/test-results/dtn-test-20251223_105947/payload-received.bin
+[2025-12-23T14:59:08.361200] [INFO] ============================================================
+[2025-12-23T14:59:08.361254] [INFO] TEST COMPLETE
+[2025-12-23T14:59:08.361286] [INFO] ============================================================
+[2025-12-23T14:59:08.361333] [INFO] Bytes sent: 216,000
+[2025-12-23T14:59:08.361377] [INFO] Bytes received: 216,000
+[2025-12-23T14:59:08.361410] [INFO] Segments sent: 844
+[2025-12-23T14:59:08.361441] [INFO] Segments received: 844
+[2025-12-23T14:59:08.361468] [INFO] LOS events: 2
+[2025-12-23T14:59:08.361497] [INFO] AOS events: 3
+[2025-12-23T14:59:08.361525] [INFO] Errors: 0
+[2025-12-23T14:59:08.361554] [INFO] Expected SHA-256: 47fa3c4667e56d8ddd6f60b247bc4ae25974bfcccbd16bea09a1669ab32ad7de
+[2025-12-23T14:59:08.361582] [INFO] Received SHA-256: 47fa3c4667e56d8ddd6f60b247bc4ae25974bfcccbd16bea09a1669ab32ad7de
+[2025-12-23T14:59:08.361675] [INFO] VERIFICATION: PASS
+[2025-12-23T14:59:08.363004] [INFO] Test artifacts saved to: /Users/brucedombrowski/SpeakUp/verification/test-results/dtn-test-20251223_105947
+[2025-12-23T14:59:08.363063] [INFO] Verification: PASS

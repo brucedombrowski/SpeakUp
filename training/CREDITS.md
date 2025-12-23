@@ -43,7 +43,7 @@ This project is dedicated to the memory of **Luke A. Dombrowski**, aka **Fuchinl
 
 Luke's passion for electronic music and creative production continues to inspire this work. His music lives on:
 
-- **SoundCloud**: [soundcloud.com/luke-dombowsky](https://soundcloud.com/luke-dombowsky)
+- **SoundCloud**: [soundcloud.com/fuchinluke](https://soundcloud.com/fuchinluke)
 - **Qobuz**: [Party Time by Fuchinluke](https://www.qobuz.com/gb-en/album/party-time-fuchinluke/tvw2k23k1u5cb)
 
 > "The constraint isn't capability. It's environment."
