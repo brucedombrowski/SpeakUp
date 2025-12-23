@@ -1,0 +1,119 @@
+# Lunar Operations Contact Plan (Artemis/LunaNet)
+#
+# Topology: Earth (1) <-> Lunar Gateway (2) <-> Lunar Surface (3)
+#
+# Based on Artemis program architecture:
+# - Earth-Moon distance: ~384,400 km
+# - One-way light time: 1.28 seconds
+# - Lunar Gateway: Near-Rectilinear Halo Orbit (NRHO)
+# - Lunar surface: Various landing sites
+#
+# Key constraint: Lunar far side has no direct Earth visibility
+# Requires relay via Gateway or dedicated relay satellites
+#
+# References:
+# - NASA LunaNet Interoperability Specification v5 (2025)
+# - CCSDS Lunar Communications Architecture
+# - Artemis program documentation
+#
+# Time units: seconds from simulation start
+# Rate units: bytes/second
+
+# =========================================================
+# Earth <-> Lunar Gateway (NRHO)
+# Near-continuous visibility except during lunar occultation
+# NRHO period: ~7 days
+# =========================================================
+
+# Day 1-6: Full Earth visibility
+a contact +0 +518400 1 2 50000000
+a contact +0 +518400 2 1 50000000
+
+# Day 7: Lunar occultation (~6 hours behind Moon)
+# No contact from +518400 to +540000
+a contact +540000 +604800 1 2 50000000
+a contact +540000 +604800 2 1 50000000
+
+# =========================================================
+# Lunar Gateway <-> Surface (Near Side)
+# Contact depends on Gateway orbital position
+# Typical: 6-8 hour windows
+# =========================================================
+
+# Day 1: Gateway visible from Artemis Base Camp (South Pole)
+a contact +0 +28800 2 3 10000000
+a contact +0 +28800 3 2 1000000
+
+# Blackout while Gateway behind Moon
+a contact +43200 +72000 2 3 10000000
+a contact +43200 +72000 3 2 1000000
+
+a contact +86400 +115200 2 3 10000000
+a contact +86400 +115200 3 2 1000000
+
+a contact +129600 +158400 2 3 10000000
+a contact +129600 +158400 3 2 1000000
+
+# =========================================================
+# Direct Earth <-> Surface (Near Side Only)
+# Possible for near-side landing sites
+# Far side requires relay
+# =========================================================
+
+# South Pole Artemis site has partial direct visibility
+a contact +0 +43200 1 3 5000000
+a contact +0 +43200 3 1 500000
+
+a contact +86400 +129600 1 3 5000000
+a contact +86400 +129600 3 1 500000
+
+# =========================================================
+# Range (one-way light time)
+# Earth-Moon: 1.28 seconds
+# Gateway-Surface: negligible
+# =========================================================
+
+a range +0 +604800 1 2 1.28
+a range +0 +604800 2 1 1.28
+a range +0 +604800 1 3 1.28
+a range +0 +604800 3 1 1.28
+a range +0 +604800 2 3 0.001
+a range +0 +604800 3 2 0.001
+
+# =========================================================
+# Far Side Operations (Node 4 - example)
+# Far side has NO direct Earth visibility
+# Must relay through Gateway or dedicated relay sat
+# =========================================================
+
+# Far side lander (if added as node 4)
+# a contact +0 +28800 2 4 1000000   # Gateway relay only
+# a contact +43200 +72000 2 4 1000000
+
+# NO direct Earth contacts possible:
+# a contact +0 +86400 1 4 ...  # IMPOSSIBLE - blocked by Moon
+
+# =========================================================
+# LunaNet DTN Architecture Notes
+# =========================================================
+#
+# 1. PROTOCOLS
+#    - Bundle Protocol v7 (CCSDS 734.20 / RFC 9171)
+#    - Licklider Transmission Protocol (LTP) for reliability
+#    - Proximity-1 for surface-to-orbit links
+#
+# 2. RELAY ARCHITECTURE
+#    - Lunar Gateway as primary relay
+#    - Future: Dedicated relay satellites (lunar south pole coverage)
+#    - Store-and-forward during blackout periods
+#
+# 3. DATA RATES
+#    - Earth-Gateway: Up to 600 Mbps (optical)
+#    - Gateway-Surface: 1-50 Mbps (RF)
+#    - Surface uplink: Limited by lander power
+#
+# 4. LATENCY
+#    - One-way: 1.28 seconds
+#    - Round-trip: 2.56 seconds
+#    - Real-time voice/video is challenging but possible
+#

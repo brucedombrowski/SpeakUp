@@ -1,0 +1,67 @@
+# Mars Relay Network Contact Plan
+#
+# Topology: Earth (1) <-> Mars Orbiter (2) <-> Mars Lander (3)
+#
+# Based on typical Mars operations:
+# - Earth-Mars distance: 55M km (closest) to 400M km (opposition)
+# - One-way light time: 3-22 minutes
+# - DSN contact: ~8-12 hours/day
+# - Orbiter-Lander: Brief contacts per orbit (~2hr period)
+#
+# Time units: seconds from simulation start
+# Rate units: bytes/second
+
+# =========================================================
+# Day 1 - Mars at moderate distance (~180M km, 10 min OWLT)
+# =========================================================
+
+# DSN Goldstone pass (8 hours)
+a contact +0 +28800 1 2 1000000
+a contact +0 +28800 2 1 1000000
+
+# Orbiter-Lander contacts (15 min each, every 2 hours)
+a contact +0 +900 2 3 500000
+a contact +0 +900 3 2 100000
+
+a contact +7200 +8100 2 3 500000
+a contact +7200 +8100 3 2 100000
+
+a contact +14400 +15300 2 3 500000
+a contact +14400 +15300 3 2 100000
+
+a contact +21600 +22500 2 3 500000
+a contact +21600 +22500 3 2 100000
+
+a contact +28800 +29700 2 3 500000
+a contact +28800 +29700 3 2 100000
+
+# DSN Madrid pass (8 hours, starts after 6hr gap)
+a contact +50400 +79200 1 2 1000000
+a contact +50400 +79200 2 1 1000000
+
+# More orbiter-lander contacts during Madrid pass
+a contact +50400 +51300 2 3 500000
+a contact +57600 +58500 2 3 500000
+a contact +64800 +65700 2 3 500000
+a contact +72000 +72900 2 3 500000
+
+# =========================================================
+# Range (one-way light time in seconds)
+# =========================================================
+
+# Earth to Mars Orbiter: 600 seconds (10 minutes)
+a range +0 +86400 1 2 600
+
+# Mars Orbiter to Lander: 0.001 seconds (local)
+a range +0 +86400 2 3 0.001
+
+# =========================================================
+# Solar Conjunction Blackout (simulated at day 30)
+# 14 days of no Earth-Mars contact
+# =========================================================
+
+# No contacts defined for time range 2592000 - 3801600
+# (Day 30 - Day 44)
+
+# Post-conjunction contacts resume at day 45
+a contact +3888000 +3916800 1 2 500000

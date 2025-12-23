@@ -1,0 +1,119 @@
+# Voyager Deep Space Contact Plan
+#
+# Topology: Earth (1) <-> Voyager (2)
+#
+# Based on actual Voyager mission operations:
+# - Voyager 1: ~165 AU from Earth (~22 hours one-way light time)
+# - Voyager 2: ~138 AU from Earth (~19 hours one-way light time)
+# - Only 70m DSN antennas can communicate with Voyagers
+# - Typical contact: ~12 hours per day
+# - Data rate: 160 bps (Voyager 1), 120-160 bps (Voyager 2)
+#
+# References:
+# - NASA DSN Now: https://eyes.nasa.gov/apps/dsn-now/
+# - JPL Voyager Mission Status
+#
+# Time units: seconds from simulation start
+# Rate units: bytes/second (160 bps = 20 bytes/sec)
+
+# =========================================================
+# Voyager 1 Contact Schedule (Node 2)
+# Distance: 165 AU, OWLT: 22 hours (79200 seconds)
+# =========================================================
+
+# Day 1 - Goldstone 70m (DSS-14) pass
+# 12-hour contact window
+a contact +0 +43200 1 2 20
+a contact +0 +43200 2 1 20
+
+# 12-hour blackout (Earth rotation)
+# No contact from +43200 to +86400
+
+# Day 1 - Canberra 70m (DSS-43) pass
+# Note: Voyager 2 ONLY visible from Canberra due to trajectory
+# Voyager 1 can use all three complexes
+a contact +86400 +129600 1 2 20
+a contact +86400 +129600 2 1 20
+
+# Day 2 - Madrid 70m (DSS-63) pass
+a contact +172800 +216000 1 2 20
+a contact +172800 +216000 2 1 20
+
+# Continue pattern...
+a contact +259200 +302400 1 2 20
+a contact +259200 +302400 2 1 20
+
+# =========================================================
+# Range (one-way light time)
+# Voyager 1: 22 hours = 79200 seconds
+# =========================================================
+
+a range +0 +604800 1 2 79200
+a range +0 +604800 2 1 79200
+
+# =========================================================
+# Voyager 2 Contact Schedule (Node 3)
+# Distance: 138 AU, OWLT: 19 hours (68400 seconds)
+# CRITICAL: Only DSS-43 (Canberra) can contact Voyager 2
+# Due to southern trajectory, northern hemisphere antennas
+# cannot achieve line-of-sight.
+# =========================================================
+
+# Day 1 - Canberra 70m (DSS-43) only
+# ~10 hour window when Voyager 2 is above horizon at Canberra
+a contact +28800 +64800 1 3 20
+a contact +28800 +64800 3 1 20
+
+# Day 2 - Canberra pass
+a contact +115200 +151200 1 3 20
+a contact +115200 +151200 3 1 20
+
+# Day 3 - Canberra pass
+a contact +201600 +237600 1 3 20
+a contact +201600 +237600 3 1 20
+
+# Range for Voyager 2
+a range +0 +604800 1 3 68400
+a range +0 +604800 3 1 68400
+
+# =========================================================
+# DSS-43 Maintenance Blackout (Historical: 2020)
+# In 2020, DSS-43 was offline for ~11 months for upgrades
+# During this time, Earth could not command Voyager 2
+# (Voyager 2 could still send data via other antennas)
+#
+# Simulated: 7-day maintenance window starting day 30
+# =========================================================
+
+# No Voyager 2 uplink contacts from day 30-37
+# Downlink still possible via other antennas (receive-only)
+# This is modeled by having asymmetric contacts:
+
+# Day 30-37: Voyager 2 can transmit, Earth cannot command
+# a contact +2592000 +3196800 3 1 20   # V2 -> Earth only
+# (uplink contact omitted)
+
+# =========================================================
+# Notes on Voyager Operations
+# =========================================================
+#
+# 1. POWER CONSTRAINTS
+#    RTG power declining ~4 watts/year
+#    Voyager 1: ~250 watts remaining (2025)
+#    Voyager 2: ~245 watts remaining (2025)
+#    Instruments being shut down to conserve power
+#
+# 2. DATA RATES
+#    Maximum: 160 bps (using 70m + arraying)
+#    Typical: 120-160 bps
+#    Compare to: New Horizons at Pluto was ~1-2 kbps
+#
+# 3. ROUND-TRIP LIGHT TIME
+#    Voyager 1: ~44 hours (command + confirmation)
+#    Voyager 2: ~38 hours
+#
+# 4. MISSION TIMELINE
+#    Launch: 1977
+#    Expected end: ~2025-2030 (power depletion)
+#    Distance increasing: ~3.6 AU/year (Voyager 1)
+#
