@@ -181,6 +181,55 @@ Upload to YouTube/LinkedIn
 
 ---
 
+## YouTube Upload (Manual)
+
+Video upload is intentionally manual to allow review before publishing.
+
+### Pre-Upload Checklist
+
+- [ ] Review video for accuracy and quality
+- [ ] Verify subtitles (.srt) are correct
+- [ ] Prepare title, description, and tags
+- [ ] Decide on visibility (public/unlisted/private)
+
+### Upload Steps
+
+1. Go to [YouTube Studio](https://studio.youtube.com)
+2. Click **Create** → **Upload videos**
+3. Select `video-output/SpeakUp-short.mp4`
+4. While uploading, fill in:
+   - **Title**: `SpeakUp: A Systems-Engineering Workflow Demo`
+   - **Description**: (see template below)
+   - **Thumbnail**: Use `slides-export/slide-01.png` or create custom
+5. Under **Subtitles**, upload `video-output/SpeakUp-short.srt`
+6. Set visibility and publish
+
+### Description Template
+
+```
+SpeakUp is a workflow pattern for knowledge work that captures ideas, executes with AI assistance, and maintains a complete system of record.
+
+This briefing demonstrates:
+• The problem: 8 constraints limiting productivity
+• The solution: Ideation → Execution → Automatic capture
+• The proof: 30 commits in 8 hours by one person
+
+📄 Full briefing (PDF): https://github.com/brucedombrowski/SpeakUp/blob/main/briefing/SpeakUp-Briefing.pdf
+📦 Repository: https://github.com/brucedombrowski/SpeakUp
+📋 MIT License - free to use, modify, distribute
+
+#productivity #systemsengineering #workflow #ai #opensource
+```
+
+### Suggested Tags
+
+```
+systems engineering, workflow, productivity, ai assisted, knowledge work,
+git, version control, process improvement, open source, documentation
+```
+
+---
+
 ## Output Specifications
 
 ### YouTube
