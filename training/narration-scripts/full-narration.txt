@@ -2,107 +2,52 @@ You have ideas. Good ones. But somewhere between your phone, your laptop, your i
 SpeakUp is a workflow pattern that fixes this. Ideation happens anywhere—your phone, a conversation, a whiteboard. Execution happens in one place—an IDE with AI assistance. Everything gets captured automatically to a system of record. No manual logging. No lost context. No excuses.
 In 8 hours, one person produced 30 commits: a working protocol implementation, security verification, this briefing deck, and full documentation. Not a team. One person. The constraint isn't capability. It's environment.
 Everything is open source. The briefing, the code, the verification evidence. Link in the description. Go see for yourself.
-**MEDIUM VERSION ADDS** — This section is included in: Medium, Long
 Let's break down what's actually killing your productivity.
->
-**Fragmented workflows**—you're juggling five apps that don't talk to each other.
-[VISUAL: Person spinning plates]
->
-**Tool accessibility**—your AI assistant is blocked, or it's outside your trust boundary.
-[VISUAL: "Access Denied" screen]
->
-**Inbox-centric work**—critical decisions buried in email threads from six months ago.
-[VISUAL: Inbox with 10,000 unread]
+These aren't character flaws. They're environmental problems. And environmental problems have environmental solutions.
 The SpeakUp workflow has two active phases and one passive phase.
->
-**Ideation**—this is thinking work. Happens on your phone, in conversations, on a whiteboard. AI helps you brainstorm, refine, and structure ideas. No constraints on location.
->
-**Execution**—this is building work. Happens in an IDE—VSCode, JetBrains, whatever you use. AI assists with code, documents, artifacts. Within your trust boundaries.
->
-**System of Record**—this is automatic. Git captures everything. Every commit is a checkpoint. Every artifact is versioned. You don't have to remember to document—it happens as a side effect of working.
->
 The key insight: you can jump between ideation and execution at any time. They're not sequential phases. They're modes of work.
 Now, if you work in government or defense, you're already thinking about objections.
->
 'We can't use cloud AI.' Fine. Use local models.
 'We can't use GitHub.' Fine. Use GitLab or self-host.
 'We have classification requirements.' Fine. The workflow supports proper markings.
->
 The SpeakUp repository itself contains no PII, no CUI, no classified information. Verified by automated scans. You can review it without relaxing any rules.
->
 Your implementation choices—where AI runs, where code lives, what devices you use—those are yours. The pattern is agnostic.
 Here's the core point: with the right environment, one person can do the work of an entire team.
->
 Not by working harder. By removing friction. By letting AI handle the mechanical parts. By capturing knowledge automatically instead of hoping someone writes it down.
->
 This isn't about replacing people. It's about multiplying them.
 Here's what to do next:
->
 One—review the briefing deck. It's designed to be read without a presenter.
->
 Two—identify a pilot area. Something small where you can test the pattern.
->
 Three—set up the environment. Repository, IDE, AI access.
->
 Four—iterate. Ideation, execution, review. Let the system of record build itself.
->
+Everything you need is in the repository. Link in the description.
 Let me show you what this looks like in practice.
->
 During the development of SpeakUp, I implemented a Delay-Tolerant Networking stack. That's Bundle Protocol version 7, TCP Convergence Layer, the whole thing. From scratch.
->
-[SHOW: Code structure, test output]
->
 This isn't toy code. It handles connection interruptions, bundle fragmentation, custody transfer. It's the kind of thing that would normally take a team weeks.
->
-[SHOW: 5-hour transfer test running]
->
+Right now, there's a test running—5 hours of continuous data transfer with simulated signal loss. Every interruption is logged. Every recovery is verified.
+The point isn't that DTN is special. The point is that this level of implementation is achievable by one person, in hours, with the right workflow.
 Let's talk about verification. Because in regulated environments, 'trust me' doesn't cut it.
->
 The SpeakUp repository includes automated verification:
->
-**PII Scan**—checks for phone numbers, SSNs, IP addresses. Pass.
->
-**Malware Scan**—ClamAV detection. Pass.
->
-**Secrets Scan**—API keys, credentials. Pass.
->
+Every scan produces objective evidence. Not 'we reviewed it'—actual output that anyone can verify.
+This is what defensible looks like. When someone in your security office asks 'how do we know this is safe?', you hand them the scan results.
 If your organization uses Scrum or Agile, you might wonder how this fits.
->
 The Scrum Guide emphasizes three things: transparency, inspection, and adaptation.
->
-**Transparency**—SpeakUp delivers this through Git. Every decision, every change, every artifact is visible. No hidden work.
->
-**Inspection**—the system of record enables this. You can review any point in history. You can see what changed and why.
->
-**Adaptation**—the ideation-execution loop supports this. You're not locked into a two-week sprint. You can pivot in minutes.
->
+SpeakUp isn't anti-Agile. It's Agile taken seriously. The principles, not just the ceremonies.
 Let's get practical. How do you actually implement this?
->
-**Repository structure**—keep it flat. Source code, documentation, verification artifacts all in one place. Don't hide things in nested folders.
->
-**Commit discipline**—each commit should be a coherent unit of work. Not 'WIP' or 'fix'. Actual descriptions of what changed and why.
->
-**AI integration**—use Claude Code, GitHub Copilot, Cursor, whatever works in your environment. The key is having it available in your IDE, not in a separate browser tab.
->
-**Mobile ideation**—use whatever captures thoughts quickly. Voice memos, notes app, chat with AI. The format doesn't matter. Getting ideas out of your head does.
->
+This isn't rigid. Adapt it to your context. The pattern is what matters, not the specific tools.
 Let me address objections I've heard:
->
 'This only works for solo developers.'
 No. The pattern scales. Each person maintains their own ideation-execution loop, but the system of record is shared. Collaboration happens through the repository, not through meetings.
->
 'AI can't handle real engineering work.'
 It can't do everything. But it can handle 80% of the mechanical work—boilerplate, documentation, test scaffolding. That frees you for the 20% that requires judgment.
->
 'My organization will never approve this.'
 That's why SpeakUp exists. It's designed to be reviewable, verifiable, and compliant. Show them the scan results. Show them the attestation. Make 'no' difficult.
+'I don't have time to learn a new workflow.'
+You don't have time not to. The question isn't whether this takes time. It's whether it saves more time than it costs. The answer is yes, dramatically.
 Here's the summary:
->
 SpeakUp is a workflow pattern for knowledge work. Ideation anywhere, execution in an IDE, automatic capture to Git.
->
 It works within security constraints. It produces verifiable evidence. It multiplies individual capability.
->
 The repository is open source. The briefing is self-contained. The verification is automated.
->
 If you're tired of fighting your environment, if you have ideas that deserve to exist, if you want to do work that matters instead of work that's required—try this.
->
+Clone the repository. Read the briefing. Pick a small project. See what happens.
+Link in the description. I'll see you in the commits.

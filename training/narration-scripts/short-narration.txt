@@ -2,25 +2,3 @@ You have ideas. Good ones. But somewhere between your phone, your laptop, your i
 SpeakUp is a workflow pattern that fixes this. Ideation happens anywhere—your phone, a conversation, a whiteboard. Execution happens in one place—an IDE with AI assistance. Everything gets captured automatically to a system of record. No manual logging. No lost context. No excuses.
 In 8 hours, one person produced 30 commits: a working protocol implementation, security verification, this briefing deck, and full documentation. Not a team. One person. The constraint isn't capability. It's environment.
 Everything is open source. The briefing, the code, the verification evidence. Link in the description. Go see for yourself.
-Let's break down what's actually killing your productivity.
->
-The SpeakUp workflow has two active phases and one passive phase.
->
-Now, if you work in government or defense, you're already thinking about objections.
->
-Here's the core point: with the right environment, one person can do the work of an entire team.
->
-Here's what to do next:
->
-Let me show you what this looks like in practice.
->
-Let's talk about verification. Because in regulated environments, 'trust me' doesn't cut it.
->
-If your organization uses Scrum or Agile, you might wonder how this fits.
->
-Let's get practical. How do you actually implement this?
->
-Let me address objections I've heard:
->
-Here's the summary:
->

@@ -22,3 +22,7 @@ __pycache__/
 # Temporary test artifacts
 /tmp/
 *.pcap
+
+# Large binary files (soundfonts, video output)
+*.sf2
+training/video-output/

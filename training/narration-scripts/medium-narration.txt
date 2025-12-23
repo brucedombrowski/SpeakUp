@@ -1,0 +1,23 @@
+You have ideas. Good ones. But somewhere between your phone, your laptop, your inbox, and that spreadsheet nobody updates... they die. Not because they're bad. Because your environment kills them.
+SpeakUp is a workflow pattern that fixes this. Ideation happens anywhere—your phone, a conversation, a whiteboard. Execution happens in one place—an IDE with AI assistance. Everything gets captured automatically to a system of record. No manual logging. No lost context. No excuses.
+In 8 hours, one person produced 30 commits: a working protocol implementation, security verification, this briefing deck, and full documentation. Not a team. One person. The constraint isn't capability. It's environment.
+Everything is open source. The briefing, the code, the verification evidence. Link in the description. Go see for yourself.
+Let's break down what's actually killing your productivity.
+These aren't character flaws. They're environmental problems. And environmental problems have environmental solutions.
+The SpeakUp workflow has two active phases and one passive phase.
+The key insight: you can jump between ideation and execution at any time. They're not sequential phases. They're modes of work.
+Now, if you work in government or defense, you're already thinking about objections.
+'We can't use cloud AI.' Fine. Use local models.
+'We can't use GitHub.' Fine. Use GitLab or self-host.
+'We have classification requirements.' Fine. The workflow supports proper markings.
+The SpeakUp repository itself contains no PII, no CUI, no classified information. Verified by automated scans. You can review it without relaxing any rules.
+Your implementation choices—where AI runs, where code lives, what devices you use—those are yours. The pattern is agnostic.
+Here's the core point: with the right environment, one person can do the work of an entire team.
+Not by working harder. By removing friction. By letting AI handle the mechanical parts. By capturing knowledge automatically instead of hoping someone writes it down.
+This isn't about replacing people. It's about multiplying them.
+Here's what to do next:
+One—review the briefing deck. It's designed to be read without a presenter.
+Two—identify a pilot area. Something small where you can test the pattern.
+Three—set up the environment. Repository, IDE, AI access.
+Four—iterate. Ideation, execution, review. Let the system of record build itself.
+Everything you need is in the repository. Link in the description.

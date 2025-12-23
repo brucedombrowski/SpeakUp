@@ -22,12 +22,48 @@ echo "Extracting narration scripts for text-to-speech..."
 SCRIPTS_DIR="narration-scripts"
 mkdir -p "$SCRIPTS_DIR"
 
-# Extract SHORT version narration
-grep -A2 "NARRATION:" Video-Storyboard.md | grep "^>" | sed 's/^> //' | sed 's/^"//' | sed 's/"$//' > "$SCRIPTS_DIR/short-narration.txt"
+# Extract SHORT version narration (between "## Script: Short Version" and "[END SHORT VERSION]")
+# Only get actual spoken text - lines starting with > that contain quotes
+awk '/## Script: Short Version/,/\[END SHORT VERSION\]/' Video-Storyboard.md | \
+    grep '^>' | \
+    grep -v 'SHORT VERSION ONLY' | \
+    grep -v 'VISUAL:' | \
+    grep -v '^>$' | \
+    sed 's/^> //' | \
+    sed 's/^"//' | \
+    sed 's/"$//' | \
+    grep -v '^\*\*' | \
+    grep -v '^\[' > "$SCRIPTS_DIR/short-narration.txt"
 echo "  Extracted: $SCRIPTS_DIR/short-narration.txt"
 
-# Extract all narration (for full version)
-grep -A10 "NARRATION:" Video-Storyboard.md | grep "^>" | sed 's/^> //' | sed 's/^"//' | sed 's/"$//' > "$SCRIPTS_DIR/full-narration.txt"
+# Extract MEDIUM version narration (Short + Medium sections)
+{
+    awk '/## Script: Short Version/,/\[END SHORT VERSION\]/' Video-Storyboard.md
+    awk '/## Script: Medium Version/,/\[END MEDIUM VERSION\]/' Video-Storyboard.md
+} | \
+    grep '^>' | \
+    grep -v 'VERSION' | \
+    grep -v 'VISUAL:' | \
+    grep -v 'SHOW:' | \
+    grep -v '^>$' | \
+    sed 's/^> //' | \
+    sed 's/^"//' | \
+    sed 's/"$//' | \
+    grep -v '^\*\*' | \
+    grep -v '^\[' > "$SCRIPTS_DIR/medium-narration.txt"
+echo "  Extracted: $SCRIPTS_DIR/medium-narration.txt"
+
+# Extract LONG version narration (all sections)
+grep '^>' Video-Storyboard.md | \
+    grep -v 'VERSION' | \
+    grep -v 'VISUAL:' | \
+    grep -v 'SHOW:' | \
+    grep -v '^>$' | \
+    sed 's/^> //' | \
+    sed 's/^"//' | \
+    sed 's/"$//' | \
+    grep -v '^\*\*' | \
+    grep -v '^\[' > "$SCRIPTS_DIR/full-narration.txt"
 echo "  Extracted: $SCRIPTS_DIR/full-narration.txt"
 
 echo ""
