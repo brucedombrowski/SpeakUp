@@ -13,6 +13,12 @@ bundles between adjacent DTN nodes. It handles:
 Standards:
 - RFC 9174: TCP Convergence Layer Protocol Version 4
 - RFC 9171: Bundle Protocol Version 7
+
+Wire Format (RFC 9174 compliant for Wireshark compatibility):
+- Contact Header: 6 bytes (magic + version + flags)
+- SESS_INIT: variable (msg_type + keepalive + MRUs + node_id + ext_len)
+- XFER_SEGMENT: variable (msg_type + flags + transfer_id + [ext_len] + data_len + data)
+- XFER_ACK: 18 bytes (msg_type + flags + transfer_id + ack_len)
 """
 
 import socket
@@ -36,7 +42,7 @@ TCPCL_VERSION = 4
 
 
 class TCPCLMessageType(IntEnum):
-    """TCPCL v4 Message Types per RFC 9174."""
+    """TCPCL v4 Message Types per RFC 9174 Section 4.2."""
     XFER_SEGMENT = 0x01     # Bundle data segment
     XFER_ACK = 0x02         # Transfer acknowledgment
     XFER_REFUSE = 0x03      # Transfer refusal
@@ -47,13 +53,13 @@ class TCPCLMessageType(IntEnum):
 
 
 class XferSegmentFlags(IntEnum):
-    """Transfer segment flags."""
+    """Transfer segment flags per RFC 9174 Section 5.2.2."""
     END = 0x01      # End of bundle
     START = 0x02    # Start of bundle
 
 
 class SessionTermReason(IntEnum):
-    """Session termination reasons."""
+    """Session termination reasons per RFC 9174."""
     UNKNOWN = 0x00
     IDLE_TIMEOUT = 0x01
     VERSION_MISMATCH = 0x02
@@ -67,24 +73,25 @@ class ContactHeader:
     """
     TCPCL v4 Contact Header per RFC 9174 Section 4.1.
 
-    Exchanged at session establishment.
+    Wire format (6 bytes):
+        magic: 4 bytes ('dtn!')
+        version: 1 byte (0x04)
+        flags: 1 byte (bit 0 = CAN_TLS)
     """
     flags: int = 0
-    keepalive_interval: int = 30  # seconds
 
     def encode(self) -> bytes:
         """Encode contact header for transmission."""
         return (
             TCPCL_MAGIC +
             struct.pack('!B', TCPCL_VERSION) +
-            struct.pack('!B', self.flags) +
-            struct.pack('!H', self.keepalive_interval)
+            struct.pack('!B', self.flags)
         )
 
     @classmethod
     def decode(cls, data: bytes) -> 'ContactHeader':
         """Decode contact header from received data."""
-        if len(data) < 8:
+        if len(data) < 6:
             raise ValueError("Contact header too short")
 
         magic = data[0:4]
@@ -96,21 +103,27 @@ class ContactHeader:
             raise ValueError(f"Unsupported version: {version}")
 
         flags = data[5]
-        keepalive = struct.unpack('!H', data[6:8])[0]
-
-        return cls(flags=flags, keepalive_interval=keepalive)
+        return cls(flags=flags)
 
 
 @dataclass
 class SessionInit:
     """
-    TCPCL v4 Session Initialization Message per RFC 9174 Section 4.2.
+    TCPCL v4 Session Initialization Message per RFC 9174 Section 4.3.
 
-    Carries node EID and session parameters.
+    Wire format:
+        msg_type: 1 byte (0x07)
+        keepalive_interval: 2 bytes (uint16)
+        segment_mru: 8 bytes (uint64)
+        transfer_mru: 8 bytes (uint64)
+        node_id_len: 2 bytes (uint16)
+        node_id: variable (UTF-8 string)
+        ext_items_len: 4 bytes (uint32)
+        ext_items: variable (none for now)
     """
     keepalive_interval: int = 30
-    segment_mru: int = 65535  # Max receive unit for segments
-    transfer_mru: int = 0xFFFFFFFF  # Max bundle size
+    segment_mru: int = 0xFFFFFFFFFFFFFFFF  # Max receive unit for segments
+    transfer_mru: int = 0xFFFFFFFFFFFFFFFF  # Max bundle size
     node_id: str = ""  # Node EID as string
 
     def encode(self) -> bytes:
@@ -122,7 +135,8 @@ class SessionInit:
             struct.pack('!Q', self.segment_mru) +
             struct.pack('!Q', self.transfer_mru) +
             struct.pack('!H', len(node_bytes)) +
-            node_bytes
+            node_bytes +
+            struct.pack('!I', 0)  # Extension items length = 0
         )
 
     @classmethod
@@ -136,6 +150,7 @@ class SessionInit:
         transfer_mru = struct.unpack('!Q', data[11:19])[0]
         node_len = struct.unpack('!H', data[19:21])[0]
         node_id = data[21:21+node_len].decode('utf-8')
+        # Extension items length at 21+node_len, we skip it
 
         return cls(
             keepalive_interval=keepalive,
@@ -192,14 +207,14 @@ class TCPCLConnection:
 
     def _exchange_contact_headers(self) -> None:
         """Exchange contact headers with peer."""
-        # Send our contact header
+        # Send our contact header (6 bytes per RFC 9174)
         header = ContactHeader()
         self.sock.sendall(header.encode())
 
-        # Receive peer's contact header
-        data = self.sock.recv(8)
+        # Receive peer's contact header (6 bytes)
+        data = self._recv_exact(6)
         peer_header = ContactHeader.decode(data)
-        self.logger.info(f"Peer keepalive: {peer_header.keepalive_interval}s")
+        self.logger.info(f"Peer contact flags: 0x{peer_header.flags:02x}")
 
     def _exchange_session_init(self) -> None:
         """Exchange session initialization messages."""
@@ -213,48 +228,72 @@ class TCPCLConnection:
         self.remote_eid = EndpointID.parse(peer_init.node_id)
         self.logger.info(f"Connected to peer: {self.remote_eid}")
 
+    def _recv_exact(self, n: int) -> bytes:
+        """Receive exactly n bytes from socket."""
+        chunks = []
+        remaining = n
+        while remaining > 0:
+            chunk = self.sock.recv(min(remaining, 65536))
+            if not chunk:
+                raise ConnectionError("Connection closed during receive")
+            chunks.append(chunk)
+            remaining -= len(chunk)
+        return b''.join(chunks)
+
     def _recv_message(self) -> bytes:
         """Receive a complete TCPCL message."""
         # First byte is message type
-        msg_type_byte = self.sock.recv(1)
+        msg_type_byte = self._recv_exact(1)
         if not msg_type_byte:
             raise ConnectionError("Connection closed")
 
         msg_type = msg_type_byte[0]
 
         if msg_type == TCPCLMessageType.SESS_INIT:
-            # Session init has variable length
-            header = self.sock.recv(20)
+            # SESS_INIT: keepalive(2) + segment_mru(8) + transfer_mru(8) + node_len(2)
+            header = self._recv_exact(20)
             node_len = struct.unpack('!H', header[18:20])[0]
-            node_data = self.sock.recv(node_len)
-            return msg_type_byte + header + node_data
+            node_data = self._recv_exact(node_len)
+            # Extension items length (4 bytes)
+            ext_len_data = self._recv_exact(4)
+            ext_len = struct.unpack('!I', ext_len_data)[0]
+            ext_data = self._recv_exact(ext_len) if ext_len > 0 else b''
+            return msg_type_byte + header + node_data + ext_len_data + ext_data
 
         elif msg_type == TCPCLMessageType.XFER_SEGMENT:
-            # Transfer segment
-            header = self.sock.recv(9)  # flags(1) + transfer_id(8)
+            # XFER_SEGMENT: flags(1) + transfer_id(8)
+            header = self._recv_exact(9)
             flags = header[0]
-            # Read data length (varint)
-            data_len = self._recv_varint()
-            data = self.sock.recv(data_len)
-            return msg_type_byte + header + data
+
+            # If START flag, read extension items
+            ext_data = b''
+            if flags & XferSegmentFlags.START:
+                ext_len_data = self._recv_exact(4)
+                ext_len = struct.unpack('!I', ext_len_data)[0]
+                ext_data = ext_len_data + (self._recv_exact(ext_len) if ext_len > 0 else b'')
+
+            # Data length (8 bytes, uint64)
+            data_len_bytes = self._recv_exact(8)
+            data_len = struct.unpack('!Q', data_len_bytes)[0]
+
+            # Bundle data
+            data = self._recv_exact(data_len)
+
+            return msg_type_byte + header + ext_data + data_len_bytes + data
 
         elif msg_type == TCPCLMessageType.XFER_ACK:
-            return msg_type_byte + self.sock.recv(17)  # flags + tid + length
+            # XFER_ACK: flags(1) + transfer_id(8) + ack_len(8)
+            return msg_type_byte + self._recv_exact(17)
 
         elif msg_type == TCPCLMessageType.KEEPALIVE:
             return msg_type_byte
 
         elif msg_type == TCPCLMessageType.SESS_TERM:
-            return msg_type_byte + self.sock.recv(2)
+            # SESS_TERM: flags(1) + reason(1)
+            return msg_type_byte + self._recv_exact(2)
 
         else:
             raise ValueError(f"Unknown message type: {msg_type}")
-
-    def _recv_varint(self) -> int:
-        """Receive a variable-length integer."""
-        # Simplified: assume 4-byte length
-        data = self.sock.recv(4)
-        return struct.unpack('!I', data)[0]
 
     def _receive_loop(self) -> None:
         """Main receive loop."""
@@ -289,7 +328,18 @@ class TCPCLConnection:
         """Handle a transfer segment message."""
         flags = data[1]
         transfer_id = struct.unpack('!Q', data[2:10])[0]
-        segment_data = data[14:]  # Skip length prefix
+
+        # Calculate offset to bundle data
+        offset = 10
+        if flags & XferSegmentFlags.START:
+            # Skip extension items length (4 bytes) + any extensions
+            ext_len = struct.unpack('!I', data[10:14])[0]
+            offset = 14 + ext_len
+
+        # Skip data length field (8 bytes) - we already read the data
+        offset += 8
+
+        segment_data = data[offset:]
 
         # Initialize buffer for new transfer
         if flags & XferSegmentFlags.START:
@@ -314,20 +364,31 @@ class TCPCLConnection:
                 self.logger.error(f"Failed to decode bundle: {e}")
 
     def send_bundle(self, bundle: Bundle) -> None:
-        """Send a bundle over this connection."""
+        """
+        Send a bundle over this connection.
+
+        Wire format per RFC 9174 Section 5.2.2:
+            msg_type: 1 byte (0x01)
+            flags: 1 byte (START=0x02, END=0x01)
+            transfer_id: 8 bytes (uint64)
+            ext_items_len: 4 bytes (uint32) - only if START flag
+            data_len: 8 bytes (uint64)
+            data: variable
+        """
         self._transfer_id += 1
         transfer_id = self._transfer_id
 
         # Encode bundle
         bundle_data = bundle.encode()
 
-        # Send as single segment (simplified - real impl would segment)
+        # Send as single segment (START + END flags)
         flags = XferSegmentFlags.START | XferSegmentFlags.END
         msg = (
             struct.pack('!B', TCPCLMessageType.XFER_SEGMENT) +
             struct.pack('!B', flags) +
             struct.pack('!Q', transfer_id) +
-            struct.pack('!I', len(bundle_data)) +
+            struct.pack('!I', 0) +  # Extension items length = 0 (required when START)
+            struct.pack('!Q', len(bundle_data)) +  # 8-byte length per RFC 9174
             bundle_data
         )
 
@@ -335,7 +396,15 @@ class TCPCLConnection:
         self.logger.info(f"Sent bundle: {bundle.bundle_id}")
 
     def _send_xfer_ack(self, transfer_id: int, length: int) -> None:
-        """Send transfer acknowledgment."""
+        """
+        Send transfer acknowledgment.
+
+        Wire format per RFC 9174:
+            msg_type: 1 byte (0x02)
+            flags: 1 byte
+            transfer_id: 8 bytes (uint64)
+            ack_len: 8 bytes (uint64)
+        """
         msg = (
             struct.pack('!B', TCPCLMessageType.XFER_ACK) +
             struct.pack('!B', 0) +  # flags
