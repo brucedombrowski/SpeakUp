@@ -6,6 +6,7 @@
 \usepackage{booktabs}
 \usepackage{tikz}
 \usepackage{hyperref}
+\usepackage{lmodern}
 
 % Time formatting
 \newcount\myhours
@@ -45,7 +46,7 @@
 \small
 Repository: \url{https://github.com/brucedombrowski/SpeakUp}\\
 \vspace{0.3em}
-\scriptsize Generated: \today\ \mytime
+\footnotesize Generated: \today\ \mytime
 \end{center}
 \end{frame}
 
@@ -56,7 +57,7 @@ Repository: \url{https://github.com/brucedombrowski/SpeakUp}\\
 
 \textbf{What SpeakUp Is:}
 \begin{itemize}
-\item A response to organizational calls for constructive employee input
+\item A response to organizational calls for constructive feedback
 \item A response to customer requests for process improvement ideas
 \item A demonstration of systems-engineering discipline applied to knowledge work
 \item Vendor-neutral at the requirements level---no specific tool is proposed
@@ -135,7 +136,7 @@ The workflow has three phases that can iterate:
 
 \draw[arrow] (mobile) -- (ide);
 \draw[arrow] (ide) -- (git);
-\draw[arrow, dashed] (ide) to[bend right=30] node[below, font=\scriptsize] {Iteration as needed} (mobile);
+\draw[arrow, dashed] (ide) to[bend right=30] node[below, font=\footnotesize] {Iteration as needed} (mobile);
 \end{tikzpicture}
 \end{center}
 
@@ -350,16 +351,14 @@ During BPv7 implementation, NASA TReK was identified as ideal tooling---but is e
 \vspace{0.5em}
 
 \begin{table}
-\scriptsize
-\begin{tabular}{@{}p{2.5cm}p{4.5cm}p{5.5cm}@{}}
+\footnotesize
+\begin{tabular}{@{}lll@{}}
 \toprule
 \textbf{Option} & \textbf{Trade-off} & \textbf{Decision} \\
 \midrule
-NASA TReK & Export control burden, requires sponsor & Future path (document constraint) \\
-\midrule
-NASA JPL ION-DTN & Open source, no restrictions & Selected as default \\
-\midrule
-Clean-room Python & Full control, no dependencies & Selected for learning/customization \\
+NASA TReK & Export controlled (EAR) & Future path \\
+NASA JPL ION-DTN & Open source & Selected default \\
+Clean-room Python & Full control & Learning/customization \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -371,30 +370,62 @@ Clean-room Python & Full control, no dependencies & Selected for learning/custom
 \textbf{Artifact:} \texttt{artifacts/Decision-Log.md}, \texttt{src/bpv7/simulation/EXPORT\_CONTROL.md}
 \end{frame}
 
+\begin{frame}{Requirements Anti-Patterns}
+\textbf{Bad specifications cost billions and cause project failures:}
+
+\vspace{0.5em}
+
+\begin{table}
+\footnotesize
+\begin{tabular}{@{}lll@{}}
+\toprule
+\textbf{Failure} & \textbf{Cost} & \textbf{Root Cause} \\
+\midrule
+Mars Climate Orbiter & \$320M & Metric/imperial unit mismatch \\
+FBI Virtual Case File & \$170M & Vague requirements, scope creep \\
+Ariane 5 Rocket & \$370M & Reused incompatible code \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.3em}
+
+\begin{table}
+\footnotesize
+\begin{tabular}{@{}ll@{}}
+\toprule
+\textbf{Anti-Pattern (FAR 11.104: ``least acceptable'')} & \textbf{Better: Performance Spec} \\
+\midrule
+``Shall use Microsoft Word'' & ``Shall produce PDF/A archival format'' \\
+``Shall be written in Java'' & ``Shall execute on target platform'' \\
+``Shall use Oracle database'' & ``Shall persist data with ACID guarantees'' \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.3em}
+
+\textbf{SpeakUp approach:} LaTeX source (diffable, traceable) $\rightarrow$ PDF output (portable, archival)
+\end{frame}
+
 \begin{frame}{Verification Summary}
 This project produces verification evidence as first-class artifacts:
 
 \vspace{0.5em}
 
 \begin{table}
-\scriptsize
+\footnotesize
 \begin{tabular}{@{}lll@{}}
 \toprule
 \textbf{Method} & \textbf{Application} & \textbf{NIST Control} \\
 \midrule
-Manual Inspection & Document review for completeness & --- \\
-\midrule
-PII Pattern Scan & Phone, SSN, IP address detection & SI-12 \\
-\midrule
-Malware Scan & ClamAV virus/malware detection & SI-3 \\
-\midrule
-Secrets Scan & API keys, credentials, passwords & SA-11 \\
-\midrule
-MAC Address Scan & IEEE 802.3 hardware identifiers & SC-8 \\
-\midrule
-Host Security & OS security configuration & CM-6 \\
-\midrule
-File Integrity & SHA-256 cryptographic hashes & SI-7 \\
+Manual Inspection & Document review & --- \\
+PII Pattern Scan & Phone, SSN, IP detection & SI-12 \\
+Malware Scan & ClamAV detection & SI-3 \\
+Secrets Scan & API keys, credentials & SA-11 \\
+MAC Address Scan & Hardware identifiers & SC-8 \\
+Host Security & OS configuration & CM-6 \\
+File Integrity & SHA-256 hashes & SI-7 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -435,25 +466,25 @@ File Integrity & SHA-256 cryptographic hashes & SI-7 \\
 \vspace{0.3em}
 
 \begin{table}
-\tiny
+\footnotesize
 \begin{tabular}{@{}ll@{}}
 \toprule
 \textbf{Hash} & \textbf{Commit Message} \\
 \midrule
-\texttt{9e5aca8} & Update documentation and security scan output handling \\
+\texttt{9e5aca8} & Update documentation and scan handling \\
 \texttt{f1f386e} & Add master build script \\
-\texttt{8855611} & Add long-duration DTN transfer test with LOS/AOS simulation \\
-\texttt{4090a0a} & Add BPv7 integration tests and Wireshark capture demo \\
-\texttt{f5d1959} & Update TCPCL to RFC 9174 wire format for Wireshark compatibility \\
-\texttt{1f3cb42} & Add constraints slide and update documentation \\
-\texttt{cd86850} & Add decision log and export control documentation \\
-\texttt{6015094} & Add Docker-based DTN simulation environment \\
-\texttt{0aecf3c} & Add TCP Convergence Layer v4 (RFC 9174) \\
-\texttt{318800a} & Add BPv7 core implementation (CCSDS 734.20-O-1 / RFC 9171) \\
-\texttt{acc6be5} & Add automated security verification suite \\
-\texttt{2b27e68} & Strengthen value proposition with concrete example \\
-\texttt{35a13c7} & Add lifecycle management to Phase 3 workflow \\
-\texttt{79ac56e} & Add LaTeX briefing deck with PDF output \\
+\texttt{8855611} & Add long-duration DTN test with LOS/AOS \\
+\texttt{4090a0a} & Add BPv7 tests and Wireshark demo \\
+\texttt{f5d1959} & Update TCPCL to RFC 9174 wire format \\
+\texttt{1f3cb42} & Add constraints slide \\
+\texttt{cd86850} & Add decision log \\
+\texttt{6015094} & Add Docker DTN simulation \\
+\texttt{0aecf3c} & Add TCPCL v4 (RFC 9174) \\
+\texttt{318800a} & Add BPv7 core (RFC 9171) \\
+\texttt{acc6be5} & Add security verification suite \\
+\texttt{2b27e68} & Strengthen value proposition \\
+\texttt{35a13c7} & Add lifecycle management \\
+\texttt{79ac56e} & Add LaTeX briefing deck \\
 \texttt{76bd5bc} & Initial commit \\
 \bottomrule
 \end{tabular}
