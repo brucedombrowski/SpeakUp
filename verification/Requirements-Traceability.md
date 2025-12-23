@@ -50,13 +50,13 @@ in the SpeakUp README and evidence of their satisfaction.
 
 ## Information Handling Traceability
 
-| Statement | README Reference | Evidence |
-|-----------|------------------|----------|
-| No sensitive PII | Line 218 | Compliance-Statement.md |
-| No CUI | Line 220 | Compliance-Statement.md |
-| No proprietary info | Line 222 | Compliance-Statement.md |
-| No classified info | Line 224 | Compliance-Statement.md |
-| Author attribution | Lines 226-228 | README Author section |
+| Statement | README Reference | Evidence | Verification |
+|-----------|------------------|----------|--------------|
+| No sensitive PII | Line 218 | Compliance-Statement.md, PII-Scan-Results.md | Inspection + Automated |
+| No CUI | Line 220 | Compliance-Statement.md | Inspection |
+| No proprietary info | Line 222 | Compliance-Statement.md | Inspection |
+| No classified info | Line 224 | Compliance-Statement.md | Inspection |
+| Author attribution | Lines 226-228 | README Author section | Inspection |
 
 ---
 
@@ -72,6 +72,28 @@ in the SpeakUp README and evidence of their satisfaction.
 
 ---
 
+## Automated Verification Evidence
+
+| Test | Script | Result | Evidence |
+|------|--------|--------|----------|
+| PII Pattern Scan | verification/scripts/check-pii.sh | PASS | verification/PII-Scan-Results.md |
+
+### PII Scan Coverage
+
+| Pattern Type | Regex | Result |
+|--------------|-------|--------|
+| IPv4 Addresses | `[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}` | PASS |
+| US Phone (dashed) | `[0-9]{3}[-][0-9]{3}[-][0-9]{4}` | PASS |
+| US Phone (dotted) | `[0-9]{3}[.][0-9]{3}[.][0-9]{4}` | PASS |
+| US Phone (parens) | `\([0-9]{3}\)[ ]*[0-9]{3}[-. ][0-9]{4}` | PASS |
+| Social Security Numbers | `[0-9]{3}-[0-9]{2}-[0-9]{4}` | PASS |
+| Credit Card Numbers | `[0-9]{4}[-. ]?[0-9]{4}[-. ]?[0-9]{4}[-. ]?[0-9]{4}` | PASS |
+
+Automated testing provides objective, reproducible evidence for Information
+Handling compliance claims.
+
+---
+
 ## Verification Status Legend
 
 | Status | Meaning |
@@ -79,6 +101,7 @@ in the SpeakUp README and evidence of their satisfaction.
 | DEMONSTRATED | Requirement satisfied through execution evidence |
 | INSPECTED | Requirement verified by document review |
 | ANALYZED | Requirement verified by analysis of multiple sources |
+| TESTED | Requirement verified by automated test script |
 | PENDING | Requirement not yet verified |
 
 ---

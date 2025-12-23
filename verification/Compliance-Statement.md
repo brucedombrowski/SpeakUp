@@ -12,8 +12,37 @@ SpeakUp README.
 
 ## Verification Method
 
-All verification was performed by **inspection and analysis** of project
-artifacts against stated requirements.
+Verification was performed using two complementary methods:
+
+1. **Inspection and Analysis** - Manual review of project artifacts against
+   stated requirements
+
+2. **Automated Testing** - Script-based scanning for PII patterns with
+   objective, reproducible results
+
+Automated verification provides objective quality evidence that supplements
+manual inspection.
+
+---
+
+## Automated PII Verification
+
+Automated scanning was performed using `verification/scripts/check-pii.sh`.
+
+| Pattern Type | Result |
+|--------------|--------|
+| IPv4 Addresses | PASS |
+| US Phone Numbers (dashed) | PASS |
+| US Phone Numbers (dotted) | PASS |
+| US Phone Numbers (parenthetical) | PASS |
+| Social Security Numbers | PASS |
+| Credit Card Numbers (16-digit) | PASS |
+
+**Automated Scan Result: PASS**
+
+Full results: `verification/PII-Scan-Results.md`
+
+Script: `verification/scripts/check-pii.sh`
 
 ---
 
@@ -27,8 +56,9 @@ artifacts against stated requirements.
 | SpeakUp-Briefing.pdf | Author name for attribution only | COMPLIANT |
 | Ideation transcript | User messages only, no identifying data | COMPLIANT |
 | Compliance-Statement.md | Contains no personal information | COMPLIANT |
+| **Automated PII Scan** | **No patterns detected** | **PASS** |
 
-**Verification Result: COMPLIANT**
+**Verification Result: COMPLIANT** (Manual inspection + Automated scan)
 
 ---
 

@@ -78,19 +78,19 @@ The current operating environment has systemic constraints that limit effectiven
 
 \begin{table}
 \small
-\begin{tabular}{@{}p{4cm}p{9cm}@{}}
+\begin{tabular}{@{}p{5.5cm}p{7.5cm}@{}}
 \toprule
 \textbf{Constraint} & \textbf{Impact} \\
 \midrule
-Fragmented workflows & Mobile ideation, desktop development, and execution environments are disconnected \\
-\addlinespace
-Limited AI in trusted boundaries & Forces workflow degradation or excessive abstraction to stay compliant \\
-\addlinespace
-Broadcast email as work proxy & Reduces signal-to-noise ratio and interrupts deep effort \\
-\addlinespace
-Untracked coordination systems & Billable work in untracked systems limits traceability and auditability \\
-\addlinespace
-Knowledge attrition risk & Legacy decommissioning, budget reduction, and personnel transition threaten institutional knowledge \\
+Fragmented workflows & Disconnected mobile, desktop, and execution environments \\
+\midrule
+Limited AI in trusted boundaries & Workflow degradation to stay compliant \\
+\midrule
+Broadcast email as work proxy & Reduced signal-to-noise; interrupts deep effort \\
+\midrule
+Untracked coordination systems & Limited traceability and auditability \\
+\midrule
+Knowledge attrition risk & Personnel transition threatens institutional knowledge \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -285,11 +285,11 @@ This project demonstrates the pattern by being the pattern:
 
 \vspace{0.5em}
 
-\item \textbf{Abstract enough to remain vendor-neutral}
+\item \textbf{Abstract enough to remain vendor and environment neutral}
 \begin{itemize}
 \item Requirements specify \textit{what}, not \textit{how}
 \item Implementation choices documented separately
-\item Alternative tools can satisfy same requirements
+\item Alternative tools and environments can satisfy same requirements
 \end{itemize}
 
 \vspace{0.5em}
@@ -313,6 +313,7 @@ All project artifacts are available for review:
 \vspace{0.5em}
 
 \begin{table}
+\small
 \begin{tabular}{@{}ll@{}}
 \toprule
 \textbf{File} & \textbf{Purpose} \\
@@ -321,11 +322,13 @@ All project artifacts are available for review:
 \addlinespace
 \texttt{briefing/SpeakUp-Briefing.pdf} & This document \\
 \addlinespace
-\texttt{briefing/SpeakUp-Briefing.tex} & Source for this document (version-controlled) \\
-\addlinespace
 \texttt{verification/Compliance-Statement.md} & Information handling verification evidence \\
 \addlinespace
 \texttt{verification/Requirements-Traceability.md} & Requirements to evidence mapping \\
+\addlinespace
+\texttt{verification/PII-Scan-Results.md} & Automated PII scan test results \\
+\addlinespace
+\texttt{verification/scripts/check-pii.sh} & Automated verification script \\
 \addlinespace
 \texttt{artifacts/Workflow-Log.md} & Execution workflow documentation \\
 \bottomrule
@@ -345,27 +348,33 @@ This project produces verification evidence as first-class artifacts:
 \vspace{0.5em}
 
 \begin{table}
+\scriptsize
 \begin{tabular}{@{}lll@{}}
 \toprule
-\textbf{Method} & \textbf{Application} & \textbf{Evidence} \\
+\textbf{Method} & \textbf{Application} & \textbf{NIST Control} \\
 \midrule
-Inspection & Document review for completeness & Compliance-Statement.md \\
-\addlinespace
-Analysis & Compliance assessment against requirements & Requirements-Traceability.md \\
-\addlinespace
-Demonstration & Working repository as proof of concept & This repository \\
+Manual Inspection & Document review for completeness & --- \\
+\midrule
+PII Pattern Scan & Phone, SSN, IP address detection & SI-12 \\
+\midrule
+Malware Scan & ClamAV virus/malware detection & SI-3 \\
+\midrule
+Secrets Scan & API keys, credentials, passwords & SA-11 \\
+\midrule
+MAC Address Scan & IEEE 802.3 hardware identifiers & SC-8 \\
+\midrule
+Host Security & OS security configuration & CM-6 \\
+\midrule
+File Integrity & SHA-256 cryptographic hashes & SI-7 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\vspace{1em}
+\vspace{0.3em}
 
-\textbf{Key Compliance Findings:}
-\begin{itemize}
-\item All information handling requirements: \textbf{COMPLIANT}
-\item All functional requirements: \textbf{ADDRESSED} or \textbf{DEMONSTRATED}
-\item All expected outputs: \textbf{COMPLETE}
-\end{itemize}
+\textbf{Security Attestation:} All automated scans \textbf{PASS}
+
+\textbf{Policy:} Only passing results are published. Vulnerability details are never exposed.
 \end{frame}
 
 \begin{frame}{Recommendation}

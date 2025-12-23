@@ -455,7 +455,17 @@ SpeakUp/
 │   └── SpeakUp-Briefing.pdf  # Briefing deck (distributable)
 └── verification/
     ├── Compliance-Statement.md      # Information handling compliance
-    └── Requirements-Traceability.md # Requirements to evidence mapping
+    ├── Requirements-Traceability.md # Requirements to evidence mapping
+    ├── Security-Attestation.md      # Automated security scan attestation
+    ├── File-Manifest.md             # SHA-256 file integrity hashes
+    └── scripts/
+        ├── run-all-scans.sh         # Master verification script
+        ├── check-pii.sh             # PII pattern verification
+        ├── check-malware.sh         # ClamAV malware scan
+        ├── check-vulnerabilities.sh # Secrets/credentials scan
+        ├── check-mac-addresses.sh   # IEEE 802.3 MAC address scan
+        ├── check-host-security.sh   # Host OS security verification
+        └── generate-manifest.sh     # File integrity manifest generator
 ```
 
 ---
