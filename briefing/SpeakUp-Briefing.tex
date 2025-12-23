@@ -453,6 +453,36 @@ File Integrity & SHA-256 hashes & SI-7 \\
 \textbf{Policy:} Only passing results are published. Vulnerability details are never exposed.
 \end{frame}
 
+\begin{frame}{Standards Alignment}
+% Added by ChatGPT (GPT-5, Codex CLI) — includes DRAFT watermark for this slide only
+\begingroup
+\setbeamertemplate{background}{\tikz[remember picture,overlay]{\node[opacity=0.08,scale=6,rotate=45,text=red] at (current page.center) {DRAFT};}}
+\textbf{Alignment status (clause-level mapping in work):}
+
+\vspace{0.5em}
+
+\begin{table}
+\footnotesize
+\begin{tabular}{@{}p{3.4cm}p{6.8cm}p{2cm}@{}}
+\toprule
+\textbf{Standard} & \textbf{Applicability} & \textbf{Status} \\
+\midrule
+ISO/IEC/IEEE 15288 & Lifecycle process structure, verification/validation cadence & Aligned \\
+ISO/IEC/IEEE 29148 & Requirements quality (shall/should/may, traceability) & Aligned \\
+ISO/IEC/IEEE 12207 & Software lifecycle for BPv7 implementation/tests & Aligned \\
+ISO/IEC/IEEE 42010 & Architecture rationale and viewpoints (workflow model) & In work \\
+ISO/IEC 25010 & Product quality characteristics (security, reliability, maintainability) & In work \\
+ISO/IEC 27001 & Security controls baseline; scan attestation supports ISMS evidence & In work \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.3em}
+
+\footnotesize Clause-level mapping to be added to verification artifacts in the next iteration.
+\endgroup
+\end{frame}
+
 \begin{frame}{Recommendation}
 \textbf{Adopt the SpeakUp workflow model as a pattern for:}
 
@@ -477,7 +507,7 @@ File Integrity & SHA-256 hashes & SI-7 \\
 \end{frame}
 
 \begin{frame}{Commit History (Evidence of Work)}
-\textbf{30 commits in 8 person-hours} --- demonstrating AI-assisted productivity:
+\textbf{15 commits shown (excerpt)} --- full history is 30 commits over ~8 person-hours:
 
 \vspace{0.3em}
 
@@ -508,6 +538,8 @@ File Integrity & SHA-256 hashes & SI-7 \\
 
 \vspace{0.3em}
 
+\footnotesize Full commit list via \texttt{git log}. Annotated by ChatGPT (GPT-5, Codex CLI).
+
 \textbf{Key Insight:} 8 hours produced: BPv7 protocol implementation, TCPCL transport, security suite, briefing deck, verification artifacts, and documentation. Each commit captures discrete, traceable work.
 \end{frame}
 
@@ -517,13 +549,24 @@ File Integrity & SHA-256 hashes & SI-7 \\
 
 \vspace{0.5em}
 
+% Fixed label alignment by using minipages (ChatGPT GPT-5, Codex CLI)
 \begin{tabular}{cc}
-\includegraphics[width=0.35\textwidth]{theme-screenshots/theme-madrid.png} &
-\includegraphics[width=0.35\textwidth]{theme-screenshots/theme-singapore.png} \\
-\footnotesize Madrid/Default & \footnotesize Singapore/Seahorse \\[1em]
-\includegraphics[width=0.35\textwidth]{theme-screenshots/theme-cambridge.png} &
-\includegraphics[width=0.35\textwidth]{theme-screenshots/theme-boadilla.png} \\
-\footnotesize CambridgeUS/Dolphin & \footnotesize Boadilla/Crane \\
+\begin{minipage}{0.45\linewidth}\centering
+\includegraphics[width=0.9\linewidth]{theme-screenshots/theme-madrid.png}\\[-0.2em]
+\scriptsize Madrid (Default)
+\end{minipage} &
+\begin{minipage}{0.45\linewidth}\centering
+\includegraphics[width=0.9\linewidth]{theme-screenshots/theme-singapore.png}\\[-0.2em]
+\scriptsize Singapore (Seahorse)
+\end{minipage} \\\\[1.2em]
+\begin{minipage}{0.45\linewidth}\centering
+\includegraphics[width=0.9\linewidth]{theme-screenshots/theme-cambridge.png}\\[-0.2em]
+\scriptsize CambridgeUS (Dolphin)
+\end{minipage} &
+\begin{minipage}{0.45\linewidth}\centering
+\includegraphics[width=0.9\linewidth]{theme-screenshots/theme-boadilla.png}\\[-0.2em]
+\scriptsize Boadilla (Crane)
+\end{minipage} \\
 \end{tabular}
 
 \vspace{0.5em}
@@ -567,6 +610,8 @@ File Integrity & SHA-256 hashes & SI-7 \\
 \item RFC 9174. \textit{Delay-Tolerant Networking TCP Convergence-Layer Protocol Version 4}
 \item RFC 8949. \textit{Concise Binary Object Representation (CBOR)}
 \item ISO 32000-2:2020. \textit{PDF/A Archival Format}
+% Added by ChatGPT (GPT-5, Codex CLI) — Git reference
+\item Git SCM. \textit{Git Reference Manual (git-scm.com/docs)}
 \end{itemize}
 \end{frame}
 
