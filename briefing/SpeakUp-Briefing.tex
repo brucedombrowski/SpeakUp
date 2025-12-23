@@ -342,6 +342,39 @@ All project artifacts are available for review:
 \end{center}
 \end{frame}
 
+\begin{frame}{Handling Constraints and Blockers}
+When a constraint is encountered, the workflow captures it explicitly:
+
+\vspace{0.5em}
+
+\begin{block}{Example: Export Control Constraint}
+During BPv7 implementation, NASA TReK was identified as ideal tooling---but is export-controlled (EAR ECCN 9D515.B.5). Rather than stop, the constraint was documented and alternatives evaluated.
+\end{block}
+
+\vspace{0.5em}
+
+\begin{table}
+\scriptsize
+\begin{tabular}{@{}p{2.5cm}p{4.5cm}p{5.5cm}@{}}
+\toprule
+\textbf{Option} & \textbf{Trade-off} & \textbf{Decision} \\
+\midrule
+NASA TReK & Export control burden, requires sponsor & Future path (document constraint) \\
+\midrule
+NASA JPL ION-DTN & Open source, no restrictions & Selected as default \\
+\midrule
+Clean-room Python & Full control, no dependencies & Selected for learning/customization \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.5em}
+
+\textbf{Key Principle:} Constraints become traceable decisions, not invisible blockers.
+
+\textbf{Artifact:} \texttt{artifacts/Decision-Log.md}, \texttt{src/bpv7/simulation/EXPORT\_CONTROL.md}
+\end{frame}
+
 \begin{frame}{Verification Summary}
 This project produces verification evidence as first-class artifacts:
 

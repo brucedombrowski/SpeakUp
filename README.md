@@ -335,6 +335,12 @@ Security assumptions shall not be weakened.
 
 ## Change Log
 
+Version: 1.5
+
+Added BPv7 (Bundle Protocol Version 7) implementation as demonstration
+of complex standards-based work. Implements CCSDS 734.20-O-1 / RFC 9171
+with CBOR encoding (RFC 8949). Added briefing build script.
+
 Version: 1.4
 
 Added Intended Audience section. Moved ideation transcript to artifacts
@@ -452,7 +458,14 @@ SpeakUp/
 │   └── SpeakUp_ideation_user_plus_summary.md  # Ideation transcript
 ├── briefing/
 │   ├── SpeakUp-Briefing.tex  # Briefing deck source (LaTeX)
-│   └── SpeakUp-Briefing.pdf  # Briefing deck (distributable)
+│   ├── SpeakUp-Briefing.pdf  # Briefing deck (distributable)
+│   └── build.sh              # Briefing deck build script
+├── src/
+│   └── bpv7/                 # Bundle Protocol v7 implementation
+│       ├── core/             # Core bundle structures
+│       ├── blocks/           # Block type implementations
+│       ├── encoding/         # CBOR encoding/CRC
+│       └── tests/            # Protocol compliance tests
 └── verification/
     ├── Compliance-Statement.md      # Information handling compliance
     ├── Requirements-Traceability.md # Requirements to evidence mapping
