@@ -133,11 +133,11 @@ fi
 echo ""
 
 # ------------------------------------------------------
-# 5. Generate Training Video (after briefing so slides are current)
+# 5. Generate Overview Video (after briefing so slides are current)
 # ------------------------------------------------------
 STEP=$((STEP + 1))
 echo "========================================================"
-echo "[$STEP/$TOTAL_STEPS] Generating Training Video"
+echo "[$STEP/$TOTAL_STEPS] Generating Overview Video"
 echo "========================================================"
 
 if [ -x "training/generate-video.sh" ]; then
@@ -155,13 +155,13 @@ if [ -x "training/generate-video.sh" ]; then
         # Verify video was actually created
         if [ -f "video-output/SpeakUp-short.mp4" ]; then
             VIDEO_SIZE=$(ls -lh video-output/SpeakUp-short.mp4 | awk '{print $5}')
-            echo "  Training Video: OK ($VIDEO_SIZE)"
+            echo "  Overview Video: OK ($VIDEO_SIZE)"
         else
-            echo "  Training Video: FAILED (file not created)"
+            echo "  Overview Video: FAILED (file not created)"
             FAILED=1
         fi
     else
-        echo "  Training Video: FAILED"
+        echo "  Overview Video: FAILED"
         FAILED=1
     fi
     cd "$SCRIPT_DIR"

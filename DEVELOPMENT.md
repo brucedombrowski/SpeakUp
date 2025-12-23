@@ -14,9 +14,7 @@ brew install texlive-basic poppler imagemagick ffmpeg
 pip3 install edge-tts
 
 # Build everything
-./briefing/build.sh
-./training/build.sh
-./training/generate-video.sh --tts
+./build.sh
 ```
 
 ## Complete Dependency List
@@ -160,15 +158,18 @@ SpeakUp/
 │   ├── build.sh        # Build PDF
 │   └── SpeakUp-Briefing.tex
 ├── training/           # Video generation
-│   ├── build.sh        # Extract assets
-│   ├── generate-video.sh # Create videos
-│   └── Video-Storyboard.md
+│   ├── generate-video.sh  # Create videos
+│   ├── generate-visuals.sh # B-roll generator
+│   ├── narration-scripts/  # TTS input text
+│   ├── slides-export/      # Briefing as PNGs
+│   └── visual-assets/      # Generated B-roll
 ├── verification/       # Security scans
 │   └── scripts/        # Verification scripts
 ├── accounting/         # Cost tracking
 │   └── calculate-costs.sh
 ├── src/               # Source code (DTN implementation)
-└── tests/             # Test suite
+├── docs/              # Additional documentation
+└── build.sh           # Master build (runs all steps)
 ```
 
 ## Troubleshooting
