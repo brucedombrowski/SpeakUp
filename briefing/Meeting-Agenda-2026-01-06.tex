@@ -1,0 +1,373 @@
+\documentclass[11pt]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{lmodern}
+\usepackage{xcolor}
+
+% Time formatting for timestamp
+\newcount\myhours
+\newcount\myminutes
+\myhours=\time \divide\myhours by 60
+\myminutes=\time \multiply\myhours by 60 \advance\myminutes by -\myhours
+\divide\myhours by 60
+\def\mytime{\ifnum\myhours<10 0\fi\the\myhours:\ifnum\myminutes<10 0\fi\the\myminutes}
+
+% Colors
+\definecolor{sectionblue}{RGB}{0,82,147}
+
+\title{\vspace{-2em}\textbf{SpeakUp Project}\\[0.3em]\Large Customer Briefing Meeting Agenda}
+\author{Bruce Dombrowski}
+\date{January 6, 2026}
+
+\begin{document}
+
+\maketitle
+
+\begin{center}
+\fbox{\parbox{0.9\textwidth}{
+\centering
+\textbf{Repository:} \url{https://github.com/brucedombrowski/SpeakUp}\\[0.5em]
+\textit{All artifacts, source code, and verification evidence available for review}
+}}
+\end{center}
+
+\vspace{0.5em}
+\begin{center}
+\footnotesize Generated: \today\ \mytime\ UTC
+\end{center}
+
+\vspace{1em}
+
+%======================================================================
+\section*{1. Meeting Overview}
+%======================================================================
+
+\begin{tabular}{@{}ll@{}}
+\textbf{Duration:} & 45--60 minutes \\
+\textbf{Format:} & Presentation + Live Demo \\
+\textbf{Audience:} & Technical leadership, program managers, customers \\
+\end{tabular}
+
+\vspace{0.5em}
+
+\textbf{Meeting Objectives:}
+\begin{itemize}
+    \item Demonstrate a systems-engineering approach to knowledge work
+    \item Show working Bundle Protocol (BPv7) implementation with live network capture
+    \item Present workflow model for improved productivity and traceability
+    \item Provide verification evidence and compliance documentation
+\end{itemize}
+
+%======================================================================
+\section*{2. Agenda}
+%======================================================================
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}clp{8cm}@{}}
+\toprule
+\textbf{Time} & \textbf{Topic} & \textbf{Description} \\
+\midrule
+5 min & Introduction & Project genesis and governing principles \\
+10 min & Problem Statement & Eight systemic constraints limiting effectiveness \\
+10 min & Proposed Solution & Workflow model: Ideation $\rightarrow$ Execution $\rightarrow$ System of Record \\
+15 min & \textbf{Live Demo} & Wireshark capture of BPv7 bundle transmission \\
+5 min & Verification & Security scans, compliance evidence, traceability \\
+5 min & Value Proposition & One person, entire team's output \\
+5 min & Next Steps \& Q\&A & Discussion and path forward \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%======================================================================
+\section*{3. Key Files to Share}
+%======================================================================
+
+\textbf{Before the meeting}, have these ready:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lp{9cm}@{}}
+\toprule
+\textbf{File} & \textbf{Purpose} \\
+\midrule
+\texttt{README.md} & Authoritative project specification and requirements \\
+\texttt{briefing/SpeakUp-Briefing.pdf} & Executive briefing deck (main presentation) \\
+\texttt{verification/Compliance-Statement.md} & Information handling verification \\
+\texttt{verification/Requirements-Traceability.md} & Requirements-to-evidence matrix \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\textbf{For the live demo}, have these ready:
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lp{9cm}@{}}
+\toprule
+\textbf{File} & \textbf{Purpose} \\
+\midrule
+\texttt{src/bpv7/capture\_demo.sh} & Wireshark capture demo script \\
+\texttt{src/bpv7/test\_local.py} & Console-based bundle test with hex dump \\
+\texttt{src/bpv7/test\_pdf\_transfer\_tshark.py} & PDF transfer with tshark verification \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%======================================================================
+\section*{4. Presentation Script}
+%======================================================================
+
+%----------------------------------------------------------------------
+\subsection*{4.1 Introduction (5 minutes)}
+%----------------------------------------------------------------------
+
+\textit{Key talking points:}
+
+\begin{quote}
+``SpeakUp is a response to two calls---our organization's call for employees to speak up constructively, and our customer's request for process improvement recommendations.
+
+This project demonstrates that \textbf{with the right environment, one person can do the work of an entire team}. Everything you'll see today---the briefing, the code, the verification evidence---was produced by one person using the workflow model we're proposing.
+
+The project is:
+\begin{itemize}
+    \item \textbf{Concrete enough to execute}---working code, real artifacts
+    \item \textbf{Abstract enough to remain vendor-neutral}---no specific tools required
+    \item \textbf{Self-demonstrating}---created using the workflow it proposes
+\end{itemize}
+''
+\end{quote}
+
+%----------------------------------------------------------------------
+\subsection*{4.2 Problem Statement (10 minutes)}
+%----------------------------------------------------------------------
+
+\textit{Walk through the eight constraints} (Slide: Problem Statement):
+
+\begin{enumerate}
+    \item Fragmented workflows across mobile, desktop, and execution environments
+    \item AI assistance unavailable or outside trust boundaries
+    \item Inbox-centric work with decisions buried in email
+    \item Untracked coordination limiting traceability
+    \item Knowledge attrition as personnel retire
+    \item Budget constraints reducing investment
+    \item Legacy systems facing decommissioning
+    \item Regulatory burden diverting resources
+\end{enumerate}
+
+\textit{Emphasize:} These are \textbf{systemic} constraints---not individual failures. The solution requires environmental change, not harder work.
+
+%----------------------------------------------------------------------
+\subsection*{4.3 Proposed Solution (10 minutes)}
+%----------------------------------------------------------------------
+
+\textit{Walk through the workflow model} (Slide: Proposed Workflow Model):
+
+\begin{quote}
+``The workflow has three phases:
+
+\textbf{1. Ideation (Mobile):} Frame objectives, capture rough drafts, use AI to synthesize. This happens anywhere---on a phone, tablet, desktop.
+
+\textbf{2. Execution (IDE):} Turn drafts into versioned, reviewable artifacts. Build inside a development environment with AI assistance. Execute within trusted boundaries.
+
+\textbf{3. System of Record (Git):} Everything is captured automatically. History, rationale, decisions---all preserved for audit and knowledge transfer.
+
+The key insight is that \textbf{work flows freely between ideation and execution}, but \textbf{recording happens automatically}. No extra effort required.''
+\end{quote}
+
+%----------------------------------------------------------------------
+\subsection*{4.4 Live Wireshark Demo (15 minutes)}
+%----------------------------------------------------------------------
+
+\textit{This is the technical highlight.} You'll demonstrate Bundle Protocol v7 actually on the wire.
+
+\vspace{0.5em}
+\textbf{Demo Setup:}
+\begin{enumerate}
+    \item Open Terminal
+    \item Navigate to repository: \texttt{cd \textasciitilde/SpeakUp}
+    \item Have Wireshark installed (or use tshark)
+\end{enumerate}
+
+\vspace{0.5em}
+\textbf{Option A: Full Wireshark Demo (Recommended)}
+
+\begin{verbatim}
+# Run the capture demo
+./src/bpv7/capture_demo.sh
+\end{verbatim}
+
+\textit{Explain while it runs:}
+\begin{quote}
+``What you're seeing is:
+\begin{enumerate}
+    \item tcpdump capturing traffic on the loopback interface, port 4556
+    \item A BPv7 bundle being created and sent via TCPCL
+    \item The capture file opening in Wireshark
+\end{enumerate}
+
+In Wireshark, I'll decode TCP port 4556 as TCPCL. You can see:
+\begin{itemize}
+    \item The `dtn!' magic bytes in the contact header
+    \item CBOR-encoded bundle data
+    \item The payload traversing a simulated DTN link
+\end{itemize}
+''
+\end{quote}
+
+\textbf{Option B: Console Demo (No Wireshark GUI)}
+
+\begin{verbatim}
+# Run console-based test with hex dump
+PYTHONPATH=src python3 src/bpv7/test_local.py
+\end{verbatim}
+
+\textit{This shows:}
+\begin{itemize}
+    \item Bundle creation with CBOR encoding
+    \item Hex dump of the bundle on the wire
+    \item TCPCL contact header exchange
+    \item Bundle reception and decoding
+\end{itemize}
+
+\textbf{Option C: PDF Transfer with tshark Verification}
+
+\begin{verbatim}
+# Transfer the briefing PDF via bundle protocol
+PYTHONPATH=src python3 src/bpv7/test_pdf_transfer_tshark.py
+\end{verbatim}
+
+\textit{Key points to highlight:}
+\begin{quote}
+``This test sends the actual SpeakUp briefing PDF via Bundle Protocol. We're using tshark to capture and verify:
+\begin{itemize}
+    \item TCPCL contact headers are on the wire (`dtn!' magic)
+    \item CBOR-encoded bundle payload is visible
+    \item MD5 integrity is verified end-to-end
+    \item Standards compliance: RFC 9171 (BPv7), RFC 9174 (TCPCL), RFC 8949 (CBOR)
+\end{itemize}
+
+This proves the implementation actually works---not just unit tests, but \textbf{observable protocol behavior on the network}.''
+\end{quote}
+
+\vspace{0.5em}
+\textbf{Wireshark Deep Dive (if time permits):}
+\begin{enumerate}
+    \item Open the saved .pcap file
+    \item Right-click TCP stream $\rightarrow$ Decode As $\rightarrow$ TCPCL
+    \item Filter: \texttt{tcpcl} or \texttt{bpv7}
+    \item Show the protocol hierarchy
+    \item Point out the `dtn!' magic (hex: 64 74 6e 21)
+    \item Show CBOR array start (0x9F)
+\end{enumerate}
+
+%----------------------------------------------------------------------
+\subsection*{4.5 Verification Evidence (5 minutes)}
+%----------------------------------------------------------------------
+
+\textit{Quick walkthrough of verification artifacts:}
+
+\begin{quote}
+``The project produces verification evidence as first-class artifacts. This isn't afterthought documentation---it's built into the workflow.
+
+\textbf{Automated Scans:}
+\begin{itemize}
+    \item PII scan---no sensitive personal data
+    \item Malware scan---ClamAV clean
+    \item Secrets scan---no API keys or credentials
+    \item MAC address scan---no hardware identifiers
+\end{itemize}
+
+\textbf{Compliance:}
+\begin{itemize}
+    \item No CUI, no proprietary data, no classified information
+    \item NIST SP 800-53 control alignment documented
+    \item FIPS 199 security categorization: LOW
+\end{itemize}
+
+The key point: \textbf{you can review this repository without relaxing any security rules}.''
+\end{quote}
+
+%----------------------------------------------------------------------
+\subsection*{4.6 Value Proposition (5 minutes)}
+%----------------------------------------------------------------------
+
+\textit{Emphasize the core message:}
+
+\begin{quote}
+``With the right environment, one person can do the work of an entire team.
+
+What you've seen today:
+\begin{itemize}
+    \item A complete BPv7 protocol implementation
+    \item TCP Convergence Layer for DTN communications
+    \item Professional briefing deck (LaTeX to PDF)
+    \item Verification and compliance evidence
+    \item Video production pipeline
+    \item Auditable cost tracking
+\end{itemize}
+
+All produced by \textbf{one person in approximately 8 hours}.
+
+The constraint isn't capability. It's environment. If we provide the right tools, workflows, and trust boundaries, we can dramatically multiply productivity while maintaining---or improving---security and traceability.''
+\end{quote}
+
+%----------------------------------------------------------------------
+\subsection*{4.7 Next Steps \& Q\&A (5 minutes)}
+%----------------------------------------------------------------------
+
+\textit{Proposed next steps:}
+
+\begin{enumerate}
+    \item \textbf{Review the repository}---all source, documentation, and evidence is available
+    \item \textbf{Identify a pilot area}---where could this workflow be applied?
+    \item \textbf{Establish infrastructure}---repository, IDE access, AI tooling within boundaries
+    \item \textbf{Measure and iterate}---track outcomes, refine approach
+\end{enumerate}
+
+\textit{Open for questions.}
+
+%======================================================================
+\section*{5. Demo Commands Quick Reference}
+%======================================================================
+
+\begin{table}[h]
+\centering
+\begin{tabular}{@{}lp{9cm}@{}}
+\toprule
+\textbf{Command} & \textbf{Description} \\
+\midrule
+\texttt{./src/bpv7/capture\_demo.sh} & Full Wireshark capture demo \\
+\texttt{PYTHONPATH=src python3 src/bpv7/test\_local.py} & Console bundle test with hex dump \\
+\texttt{PYTHONPATH=src python3 src/bpv7/test\_pdf\_transfer\_tshark.py} & PDF transfer with tshark \\
+\texttt{./build.sh} & Run full build (tests, scans, briefing, video) \\
+\texttt{./verification/scripts/run-all-scans.sh} & Run security verification scans \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%======================================================================
+\section*{6. Backup Materials}
+%======================================================================
+
+\textbf{If questions arise about:}
+
+\begin{itemize}
+    \item \textbf{Standards:} Reference RFC 9171 (BPv7), RFC 9174 (TCPCL), RFC 8949 (CBOR)
+    \item \textbf{Security:} Show \texttt{verification/Security-Attestation.md}
+    \item \textbf{Costs:} Run \texttt{./accounting/calculate-costs.sh}
+    \item \textbf{Architecture:} Walk through \texttt{src/bpv7/} directory structure
+    \item \textbf{Requirements:} Show \texttt{verification/Requirements-Traceability.md}
+\end{itemize}
+
+\vspace{2em}
+
+\begin{center}
+\rule{0.5\textwidth}{0.5pt}\\[1em]
+\textit{This agenda was created using the SpeakUp workflow model it describes.}\\[0.5em]
+\textbf{Repository:} \url{https://github.com/brucedombrowski/SpeakUp}
+\end{center}
+
+\end{document}
